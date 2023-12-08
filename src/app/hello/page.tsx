@@ -1,7 +1,3 @@
 export default function Hello() {
-  return (
-    <main>
-      <div>Hello</div>
-    </main>
-  );
+  return <div>Hello</div>;
 }
