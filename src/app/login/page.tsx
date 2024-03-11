@@ -1,25 +1,31 @@
+"use client";
 import SocialLoginButton from "@/components/button/SocialLoginButton";
+import SubmitButton from "@/components/button/SubmitButton";
+import InputField from "@/components/input/InputField";
 import Link from "next/link";
-import React from "react";
 
 export default function Login() {
+  //   const onLogin = () => {};
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-3">
       <h1 className="text-5xl gaegu mb-9 ">나랑노랑</h1>
-      <form action="" className="flex flex-col gap-2">
-        <input
+      <form
+        className="flex flex-col gap-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <InputField
           type="text"
           placeholder="아이디를 입력하세요."
-          className="inline-block h-10 px-2 text-sm border border-gray-400 border-solid rounded w-60"
+          width="w-60"
         />
-        <input
+        <InputField
           type="password"
           placeholder="비밀번호를 입력하세요."
-          className="inline-block h-10 px-2 text-sm border border-gray-400 border-solid rounded w-60"
+          width="w-60"
         />
-        <button className="h-10 text-sm rounded bg-customYellow w-60">
-          로그인
-        </button>
+        <SubmitButton width="w-60">로그인</SubmitButton>
       </form>
       <p className="flex my-2 text-xs divide-x divide-solid ">
         <span className="px-2 cursor-pointer">비밀번호 찾기</span>
