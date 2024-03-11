@@ -1,4 +1,5 @@
 import SocialLoginButton from "@/components/button/SocialLoginButton";
+import Link from "next/link";
 import React from "react";
 
 export default function Login() {
@@ -22,7 +23,9 @@ export default function Login() {
       </form>
       <p className="flex my-2 text-xs divide-x divide-solid ">
         <span className="px-2 cursor-pointer">비밀번호 찾기</span>
-        <span className="px-2 cursor-pointer">회원가입</span>
+        <Link href={"/signup"} className="px-2 cursor-pointer">
+          회원가입
+        </Link>
       </p>
       <section className="flex flex-col gap-1 my-2 text-sm">
         <SocialLoginButton bgColor="bg-yellow-300" textColor="text-black">

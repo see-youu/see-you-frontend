@@ -19,6 +19,14 @@ export default function Home() {
             로그인
           </button>
         </Link>
+        <Link href="/signup">
+          <button
+            type="button"
+            className="block rounded bg-yellow-500 text-sm px-6 pb-2 pt-2.5 font-medium uppercase s text-whit"
+          >
+            회원가입
+          </button>
+        </Link>
       </div>
     </main>
   );
