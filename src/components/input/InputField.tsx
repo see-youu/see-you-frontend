@@ -5,6 +5,8 @@ type InputFieldProps = {
   width?: string;
   height?: string;
   className?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 const InputField: React.FC<InputFieldProps> = ({
   type,
@@ -13,6 +15,8 @@ const InputField: React.FC<InputFieldProps> = ({
   width = "w-full",
   height = "h-10",
   className = "",
+  value,
+  onChange,
 }) => {
   return (
     <input
@@ -20,6 +24,8 @@ const InputField: React.FC<InputFieldProps> = ({
       placeholder={placeholder}
       required={required}
       className={`inline-block px-2 text-sm border border-gray-400 border-solid rounded ${width} ${height} ${className}`}
+      value={value}
+      onChange={onChange}
     />
   );
 };
