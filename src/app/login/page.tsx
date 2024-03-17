@@ -1,13 +1,17 @@
 "use client";
+import CloseButton from "@/components/button/CloseButton";
 import SocialLoginButton from "@/components/button/SocialLoginButton";
 import SubmitButton from "@/components/button/SubmitButton";
 import InputField from "@/components/input/InputField";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
-  //   const onLogin = () => {};
+  const router = useRouter();
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-3">
+    <div className="relative flex flex-col items-center justify-center min-h-screen gap-3">
+      <CloseButton onClick={() => router.back()} />
       <h1 className="text-5xl gaegu mb-9 ">나랑노랑</h1>
       <form
         className="flex flex-col gap-2"
