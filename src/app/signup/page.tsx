@@ -1,6 +1,7 @@
 "use client";
 import Step0 from "@/components/signup/Step0";
 import Step1 from "@/components/signup/Step1";
+import { UserType } from "@/types/userType";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
@@ -8,8 +9,18 @@ import React, { useState } from "react";
 
 const Signup = () => {
   const [step, setStep] = useState(0);
-  const [numberCheck, setNumberCheck] = useState(true);
 
+  const [user, setUser] = useState<UserType>({
+    phoneNumber: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+    nickname: "",
+    email: "",
+  });
+
+  console.log(user);
   const router = useRouter();
 
   const onStepBack = () => {
@@ -19,9 +30,7 @@ const Signup = () => {
   };
 
   const onStepNext = () => {
-    if (step == 0) {
-      if (numberCheck) setStep(1);
-    }
+    setStep((current) => current + 1);
   };
 
   const onSubmit = () => {
@@ -35,9 +44,16 @@ const Signup = () => {
 
   const renderStep = () => {
     if (step == 0) {
-      return <Step0 onNext={onStepNext} onSendCode={onSendCode} />;
+      return (
+        <Step0
+          onNext={onStepNext}
+          onSendCode={onSendCode}
+          user={user}
+          setUser={setUser}
+        />
+      );
     } else if (step == 1) {
-      return <Step1 onSubmit={onSubmit} />;
+      return <Step1 onSubmit={onSubmit} user={user} setUser={setUser} />;
     }
   };
 

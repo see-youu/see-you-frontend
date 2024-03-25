@@ -7,6 +7,8 @@ type InputFieldProps = {
   className?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  error?: boolean;
 };
 const InputField: React.FC<InputFieldProps> = ({
   type,
@@ -17,15 +19,20 @@ const InputField: React.FC<InputFieldProps> = ({
   className = "",
   value,
   onChange,
+  onBlur,
+  error,
 }) => {
   return (
     <input
       type={type}
       placeholder={placeholder}
       required={required}
-      className={`inline-block px-2 text-sm border border-gray-400 border-solid rounded ${width} ${height} ${className}`}
+      className={`inline-block px-2 text-sm border border-gray-400 border-solid rounded ${width} ${height} ${className} ${
+        error ? "border-red-500 border-2" : "border-gray-400"
+      } `}
       value={value}
       onChange={onChange}
+      onBlur={onBlur}
     />
   );
 };

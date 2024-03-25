@@ -3,21 +3,29 @@ import { useEffect, useState } from "react";
 import SubmitButton from "../button/SubmitButton";
 import InputField from "../input/InputField";
 import InputSection from "../input/InputSection";
+import { UserType } from "@/types/userType";
+import useValidation from "@/hooks/useValidation";
 
-const VALID_CODE = "1234";
 const INITIAL_TIMER = 10;
 
 type Step0Props = {
   onNext: () => void;
   onSendCode: () => void;
+  user: UserType;
+  setUser: React.Dispatch<React.SetStateAction<UserType>>;
 };
 
-const Step0: React.FC<Step0Props> = ({ onNext, onSendCode }) => {
+const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
   const [timer, setTimer] = useState<number>(0);
   const [buttonText, setButtonText] = useState<string>("인증번호 전송");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>(user.phoneNumber);
   const [numberCode, setNumberCode] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
+
+  const { valid, handleValidPhoneNumber } = useValidation();
+
+  const onStepNext = () => {
+    if (valid.phoneNumber) onNext();
+  };
 
   useEffect(() => {
     if (timer <= 0) {
@@ -41,9 +49,13 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode }) => {
   }, [timer]);
 
   const handleCheckCode = () => {
-    if (numberCode === VALID_CODE) {
-      onNext();
-    } else setMessage("인증코드가 일치하지 않습니다.");
+    if (valid.phoneNumber) {
+      setUser((current: any) => ({
+        ...current,
+        phoneNumber: phoneNumber,
+      }));
+      onStepNext();
+    }
   };
 
   const handleSendCode = () => {
@@ -79,8 +91,9 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode }) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setNumberCode(e.target.value)
           }
+          onBlur={() => handleValidPhoneNumber(numberCode)}
         />
-        {!!message && (
+        {valid.phoneNumber === false && (
           <span className="text-xs text-red-600">
             인증번호가 일치하지 않습니다.
           </span>
