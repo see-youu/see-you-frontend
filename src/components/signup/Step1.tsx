@@ -1,16 +1,9 @@
-import { validCheckNickname, validCheckUsername } from "@/api/validCheck";
 import SubmitButton from "../button/SubmitButton";
 import InputField from "../input/InputField";
 import InputSection from "../input/InputSection";
 import { useState } from "react";
 import { UserType } from "@/types/userType";
 import useValidation from "@/hooks/useValidation";
-
-type ValidType = {
-  username: boolean | null;
-  confirmPassword: boolean | null;
-  nickname: boolean | null;
-};
 
 type Step1Props = {
   onSubmit: () => void;
@@ -28,7 +21,7 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
     email: "",
   });
   const {
-    valid,
+    validState,
     handleValidUsername,
     handleValidNickname,
     handleConfirmPassword,
@@ -58,13 +51,9 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
               }));
             }}
             onBlur={() => handleValidUsername(tmpUser.username)}
-            error={valid.username === false}
+            error={validState.username.valid === false}
+            errorMessage={validState.username.message}
           />
-          {valid.username === false && (
-            <span className="text-sm text-red-600">
-              이미 사용중인 아이디입니다.
-            </span>
-          )}
         </InputSection>
         <InputSection label="비밀번호">
           <InputField
@@ -81,7 +70,7 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
             onBlur={() =>
               handleConfirmPassword(tmpUser.password, tmpUser.confirmPassword)
             }
-            error={valid.confirmPassword === false}
+            error={validState.confirmPassword.valid === false}
           />
           <InputField
             required
@@ -97,16 +86,23 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
             onBlur={() =>
               handleConfirmPassword(tmpUser.password, tmpUser.confirmPassword)
             }
-            error={valid.confirmPassword === false}
+            error={validState.confirmPassword.valid === false}
+            errorMessage={validState.confirmPassword.message}
           />
-          {valid.confirmPassword === false && (
-            <span className="text-sm text-red-600">
-              비밀번호가 일치하지 않습니다.
-            </span>
-          )}
         </InputSection>
         <InputSection label="이름">
-          <InputField required type="text" placeholder="이름을 입력하세요." />
+          <InputField
+            required
+            type="text"
+            placeholder="이름을 입력하세요."
+            value={tmpUser.name}
+            onChange={(e) => {
+              setTmpUser((current) => ({
+                ...current,
+                name: e.target.value,
+              }));
+            }}
+          />
         </InputSection>
         <InputSection label="닉네임">
           <InputField
@@ -121,20 +117,29 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
               }));
             }}
             onBlur={() => handleValidNickname(tmpUser.nickname)}
-            error={valid.nickname === false}
+            error={validState.nickname.valid === false}
+            errorMessage={validState.nickname.message}
           />
-          {valid.nickname === false && (
-            <span className="text-sm text-red-600">
-              이미 사용중인 닉네임입니다.
-            </span>
-          )}
         </InputSection>
         <InputSection label="이메일 (선택)">
-          <InputField type="email" placeholder="이메일을 입력하세요." />
+          <InputField
+            type="email"
+            placeholder="이메일을 입력하세요."
+            value={tmpUser.email}
+            onChange={(e) => {
+              setTmpUser((current) => ({
+                ...current,
+                email: e.target.value,
+              }));
+            }}
+          />
         </InputSection>
         <SubmitButton
           disabled={
-            !valid.username || !valid.confirmPassword || !valid.nickname
+            !validState.username.valid ||
+            !validState.confirmPassword.valid ||
+            !validState.nickname.valid ||
+            tmpUser.name === ""
           }
         >
           가입하기

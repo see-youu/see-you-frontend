@@ -9,6 +9,7 @@ type InputFieldProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   error?: boolean;
+  errorMessage?: string;
 };
 const InputField: React.FC<InputFieldProps> = ({
   type,
@@ -21,19 +22,23 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
   onBlur,
   error,
+  errorMessage,
 }) => {
   return (
-    <input
-      type={type}
-      placeholder={placeholder}
-      required={required}
-      className={`inline-block px-2 text-sm border border-gray-400 border-solid rounded ${width} ${height} ${className} ${
-        error ? "border-red-500 border-2" : "border-gray-400"
-      } `}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-    />
+    <>
+      <input
+        type={type}
+        placeholder={placeholder}
+        required={required}
+        className={`inline-block px-2 text-sm border border-gray-400 border-solid rounded ${width} ${height} ${className} ${
+          error ? "border-red-500 border-2" : "border-gray-400"
+        } `}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+      {error && <span className="text-sm text-red-600">{errorMessage}</span>}
+    </>
   );
 };
 

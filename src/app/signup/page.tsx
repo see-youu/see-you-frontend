@@ -5,7 +5,7 @@ import { UserType } from "@/types/userType";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 
 const Signup = () => {
   const [step, setStep] = useState(0);
@@ -20,7 +20,6 @@ const Signup = () => {
     email: "",
   });
 
-  console.log(user);
   const router = useRouter();
 
   const onStepBack = () => {
@@ -42,20 +41,19 @@ const Signup = () => {
     console.log("인증코드 전송");
   };
 
-  const renderStep = () => {
-    if (step == 0) {
-      return (
-        <Step0
-          onNext={onStepNext}
-          onSendCode={onSendCode}
-          user={user}
-          setUser={setUser}
-        />
-      );
-    } else if (step == 1) {
-      return <Step1 onSubmit={onSubmit} user={user} setUser={setUser} />;
-    }
+  const stepComponents: { [key: number]: ReactElement } = {
+    0: (
+      <Step0
+        onNext={onStepNext}
+        onSendCode={onSendCode}
+        user={user}
+        setUser={setUser}
+      />
+    ),
+    1: <Step1 onSubmit={onSubmit} user={user} setUser={setUser} />,
   };
+
+  const renderStep = () => stepComponents[step] || <div>Invalid Step</div>;
 
   return (
     <div className="flex flex-col items-center min-h-screen gap-6">

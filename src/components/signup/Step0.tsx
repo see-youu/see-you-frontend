@@ -5,6 +5,7 @@ import InputField from "../input/InputField";
 import InputSection from "../input/InputSection";
 import { UserType } from "@/types/userType";
 import useValidation from "@/hooks/useValidation";
+import useTimer from "@/hooks/useTimer";
 
 const INITIAL_TIMER = 10;
 
@@ -16,32 +17,22 @@ type Step0Props = {
 };
 
 const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
-  const [timer, setTimer] = useState<number>(0);
+  const [timer, setTimer] = useTimer();
   const [buttonText, setButtonText] = useState<string>("인증번호 전송");
   const [phoneNumber, setPhoneNumber] = useState<string>(user.phoneNumber);
   const [numberCode, setNumberCode] = useState<string>("");
 
-  const { valid, handleValidPhoneNumber } = useValidation();
+  const { validState, handleValidPhoneNumber } = useValidation();
 
   const onStepNext = () => {
-    if (valid.phoneNumber) onNext();
+    if (validState.phoneNumber) onNext();
   };
-
-  useEffect(() => {
-    if (timer <= 0) {
-      setButtonText("인증번호 전송");
-      return;
-    }
-    const interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [timer]);
 
   useEffect(() => {
     const minutes = Math.floor(timer / 60);
     const seconds = timer % 60;
-    if (timer > 0) {
+    if (timer === 0) setButtonText("인증번호 전송");
+    else if (timer > 0) {
       setButtonText(
         `재전송 (${minutes}:${seconds < 10 ? `0${seconds}` : seconds})`
       );
@@ -49,8 +40,8 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
   }, [timer]);
 
   const handleCheckCode = () => {
-    if (valid.phoneNumber) {
-      setUser((current: any) => ({
+    if (validState.phoneNumber) {
+      setUser((current: UserType) => ({
         ...current,
         phoneNumber: phoneNumber,
       }));
@@ -93,7 +84,7 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
           }
           onBlur={() => handleValidPhoneNumber(numberCode)}
         />
-        {valid.phoneNumber === false && (
+        {validState.phoneNumber.valid === false && (
           <span className="text-xs text-red-600">
             인증번호가 일치하지 않습니다.
           </span>
