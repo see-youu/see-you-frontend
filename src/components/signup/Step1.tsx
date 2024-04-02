@@ -42,7 +42,7 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
           <InputField
             required
             type="text"
-            placeholder="아이디를 입력하세요."
+            placeholder="영문 시작 4~20자 (숫자, 기호 _ . - 사용 가능)"
             value={tmpUser.username}
             onChange={(e) => {
               setTmpUser((current) => ({
@@ -108,7 +108,7 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
           <InputField
             required
             type="text"
-            placeholder="닉네임을 입력하세요."
+            placeholder="영문, 한글, 숫자, _ 사용하여 2~20자"
             value={tmpUser.nickname}
             onChange={(e) => {
               setTmpUser((current) => ({

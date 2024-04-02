@@ -6,6 +6,7 @@ import InputSection from "../input/InputSection";
 import { UserType } from "@/types/userType";
 import useValidation from "@/hooks/useValidation";
 import useTimer from "@/hooks/useTimer";
+import { phoneNumberParse } from "@/utils/parseFormat";
 
 const INITIAL_TIMER = 10;
 
@@ -63,9 +64,10 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
             placeholder="전화번호를 입력하세요."
             width="w-60"
             value={phoneNumber}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPhoneNumber(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const withHypenNumber = phoneNumberParse(e.target.value);
+              setPhoneNumber(withHypenNumber);
+            }}
           />
           <SubmitButton
             width="w-28"

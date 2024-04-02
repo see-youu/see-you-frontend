@@ -11,52 +11,80 @@ const useValidation = () => {
   });
 
   const handleValidUsername = async (username: string) => {
+    const pattern = /^[A-Za-z][A-Za-z0-9._-]{3,19}$/;
     setValidState((current) => ({
       ...current,
       username: { ...current.username, loading: true },
     }));
-    try {
-      const isValid = await validCheckUsername(username);
-      setValidState((current) => ({
-        ...current,
-        username: {
-          valid: isValid,
-          message: isValid ? "" : "이미 사용중인 아이디입니다.",
-          loading: false,
-        },
-      }));
-    } catch (error) {
-      setValidState((current) => ({
-        ...current,
-        username: {
-          valid: false,
-          message: "사용 불가능한 아이디입니다.",
-          loading: false,
-        },
-      }));
+    const isPattern = pattern.test(username);
+    setValidState((current) => ({
+      ...current,
+      username: {
+        valid: isPattern,
+        message: isPattern ? "" : "아이디 형식에 일치하지 않습니다.",
+        loading: false,
+      },
+    }));
+    if (isPattern) {
+      try {
+        const isValid = await validCheckUsername(username);
+        setValidState((current) => ({
+          ...current,
+          username: {
+            valid: isValid,
+            message: isValid ? "" : "이미 사용중인 아이디입니다.",
+            loading: false,
+          },
+        }));
+      } catch (error) {
+        setValidState((current) => ({
+          ...current,
+          username: {
+            valid: false,
+            message: "사용 불가능한 아이디입니다.",
+            loading: false,
+          },
+        }));
+      }
     }
   };
 
   const handleValidNickname = async (nickname: string) => {
-    try {
-      const isValid = await validCheckNickname(nickname);
-      setValidState((current) => ({
-        ...current,
-        nickname: {
-          valid: isValid,
-          message: isValid ? "" : "이미 사용중인 닉네임입니다.",
-          loading: false,
-        },
-      }));
-    } catch (error) {
-      setValidState((current) => ({
-        ...current,
-        nickname: {
-          valid: false,
-          message: "사용 불가능한 닉네임입니다.",
-          loading: false,
-        },
-      }));
+    const pattern = /^[A-Za-z0-9_\uAC00-\uD7A3]{2,20}$/;
+    setValidState((current) => ({
+      ...current,
+      username: { ...current.nickname, loading: true },
+    }));
+    const isPattern = pattern.test(nickname);
+    setValidState((current) => ({
+      ...current,
+      nickname: {
+        valid: isPattern,
+        message: isPattern ? "" : "닉네임 형식에 일치하지 않습니다.",
+        loading: false,
+      },
+    }));
+    if (isPattern) {
+      try {
+        const isValid = await validCheckNickname(nickname);
+        setValidState((current) => ({
+          ...current,
+          nickname: {
+            valid: isValid,
+            message: isValid ? "" : "이미 사용중인 닉네임입니다.",
+            loading: false,
+          },
+        }));
+      } catch (error) {
+        setValidState((current) => ({
+          ...current,
+          nickname: {
+            valid: false,
+            message: "사용 불가능한 닉네임입니다.",
+            loading: false,
+          },
+        }));
+      }
     }
   };
 
