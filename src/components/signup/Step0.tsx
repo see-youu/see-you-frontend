@@ -23,7 +23,8 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>(user.phoneNumber);
   const [numberCode, setNumberCode] = useState<string>("");
 
-  const { validState, handleValidPhoneNumber } = useValidation();
+  const { validState, handleValidPhoneNumber, handleValidPhoneCode } =
+    useValidation();
 
   const onStepNext = () => {
     if (validState.phoneNumber) onNext();
@@ -41,7 +42,7 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
   }, [timer]);
 
   const handleCheckCode = () => {
-    if (validState.phoneNumber) {
+    if (validState.phoneCode.valid) {
       setUser((current: UserType) => ({
         ...current,
         phoneNumber: phoneNumber,
@@ -50,10 +51,13 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
     }
   };
 
-  const handleSendCode = () => {
-    onSendCode();
-    setTimer(INITIAL_TIMER);
+  const handleSendCode = async () => {
+    if (validState.phoneNumber.valid) {
+      onSendCode();
+      setTimer(INITIAL_TIMER);
+    }
   };
+
   return (
     <>
       <h2 className="text-lg">전화번호 인증</h2>
@@ -68,6 +72,9 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
               const withHypenNumber = phoneNumberParse(e.target.value);
               setPhoneNumber(withHypenNumber);
             }}
+            onBlur={() => handleValidPhoneNumber(phoneNumber)}
+            error={validState.phoneNumber.valid === false}
+            errorMessage={validState.phoneNumber.message}
           />
           <SubmitButton
             width="w-28"
@@ -84,13 +91,10 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setNumberCode(e.target.value)
           }
-          onBlur={() => handleValidPhoneNumber(numberCode)}
+          onBlur={() => handleValidPhoneCode(numberCode)}
+          error={validState.phoneCode.valid === false}
+          errorMessage={validState.phoneCode.message}
         />
-        {validState.phoneNumber.valid === false && (
-          <span className="text-xs text-red-600">
-            인증번호가 일치하지 않습니다.
-          </span>
-        )}
         <SubmitButton onClick={handleCheckCode}>확인</SubmitButton>
       </InputSection>
     </>

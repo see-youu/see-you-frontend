@@ -10,4 +10,5 @@ export type ValidationState = {
   nickname: { valid: boolean | null; message: string; loading: boolean };
   confirmPassword: { valid: boolean | null; message: string };
   phoneNumber: { valid: boolean | null; message: string };
+  phoneCode: { valid: boolean | null; message: string };
 };

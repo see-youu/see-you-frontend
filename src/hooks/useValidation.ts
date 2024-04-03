@@ -1,4 +1,8 @@
-import { validCheckNickname, validCheckUsername } from "@/api/validCheck";
+import {
+  validCheckNickname,
+  validCheckPhoneNumber,
+  validCheckUsername,
+} from "@/api/validCheck";
 import { ValidationState } from "@/types/signupValidType";
 import { useState } from "react";
 
@@ -8,6 +12,7 @@ const useValidation = () => {
     nickname: { valid: null, message: "", loading: false },
     confirmPassword: { valid: null, message: "" },
     phoneNumber: { valid: null, message: "" },
+    phoneCode: { valid: null, message: "" },
   });
 
   const handleValidUsername = async (username: string) => {
@@ -99,22 +104,63 @@ const useValidation = () => {
     }));
   };
 
-  const handleValidPhoneNumber = (phoneNumber: string) => {
-    const isValid = phoneNumber === "1234";
+  const handleValidPhoneNumber = async (phoneNumber: string) => {
+    const pattern = /^\d{3}-\d{3,4}-\d{4}$/;
+    setValidState((current) => ({
+      ...current,
+      phoneNumber: { ...current.phoneNumber, loading: true },
+    }));
+    const isPattern = pattern.test(phoneNumber);
     setValidState((current) => ({
       ...current,
       phoneNumber: {
+        valid: isPattern,
+        message: isPattern ? "" : "전화번호 형식에 일치하지 않습니다.",
+        loading: false,
+      },
+    }));
+    if (isPattern) {
+      try {
+        const isValid = await validCheckPhoneNumber(phoneNumber);
+        setValidState((current) => ({
+          ...current,
+          phoneNumber: {
+            valid: isValid,
+            message: isValid ? "" : "이미 등록된 전화번호입니다.",
+            loading: false,
+          },
+        }));
+      } catch (error) {
+        setValidState((current) => ({
+          ...current,
+          phoneNumber: {
+            valid: false,
+            message: "사용 불가능한 전화번호입니다.",
+            loading: false,
+          },
+        }));
+      }
+    }
+  };
+
+  const handleValidPhoneCode = (code: string) => {
+    const isValid = code === "1234";
+    setValidState((current) => ({
+      ...current,
+      phoneCode: {
         valid: isValid,
-        message: isValid ? "" : "전화번호가 유효하지 않습니다.",
+        message: isValid ? "" : "인증코드가 일치하지 않습니다.",
       },
     }));
   };
+
   return {
     validState,
     handleValidUsername,
     handleValidNickname,
     handleConfirmPassword,
     handleValidPhoneNumber,
+    handleValidPhoneCode,
   };
 };
 

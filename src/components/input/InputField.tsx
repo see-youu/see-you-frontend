@@ -27,7 +27,7 @@ const InputField: React.FC<InputFieldProps> = ({
   errorMessage,
 }) => {
   return (
-    <>
+    <section className="flex flex-col">
       <input
         type={type}
         placeholder={placeholder}
@@ -40,7 +40,7 @@ const InputField: React.FC<InputFieldProps> = ({
         onBlur={onBlur}
       />
       {error && <span className="text-sm text-red-600">{errorMessage}</span>}
-    </>
+    </section>
   );
 };
 
