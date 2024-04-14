@@ -58,7 +58,7 @@ const useValidation = () => {
     const pattern = /^[A-Za-z0-9_\uAC00-\uD7A3]{2,20}$/;
     setValidState((current) => ({
       ...current,
-      username: { ...current.nickname, loading: true },
+      nickname: { ...current.nickname, loading: true },
     }));
     const isPattern = pattern.test(nickname);
     setValidState((current) => ({

@@ -1,9 +1,9 @@
 export type UserType = {
-  phoneNumber: string;
+  phone: string;
   username: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
   name: string;
   nickname: string;
-  email: string;
+  email?: string;
 };

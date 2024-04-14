@@ -1,4 +1,5 @@
 "use client";
+import { signupUser } from "@/api/signup";
 import Step0 from "@/components/signup/Step0";
 import Step1 from "@/components/signup/Step1";
 import { UserType } from "@/types/userType";
@@ -11,7 +12,7 @@ const Signup = () => {
   const [step, setStep] = useState(0);
 
   const [user, setUser] = useState<UserType>({
-    phoneNumber: "",
+    phone: "",
     username: "",
     password: "",
     confirmPassword: "",
@@ -23,7 +24,6 @@ const Signup = () => {
   const router = useRouter();
 
   const onStepBack = () => {
-    console.log(step);
     if (step > 0) setStep((current) => current - 1);
     else router.back();
   };
@@ -32,25 +32,9 @@ const Signup = () => {
     setStep((current) => current + 1);
   };
 
-  const onSubmit = () => {
-    window.alert("가입이 완료되었습니다.");
-    router.push("/login");
-  };
-
-  const onSendCode = () => {
-    console.log("인증코드 전송");
-  };
-
   const stepComponents: { [key: number]: ReactElement } = {
-    0: (
-      <Step0
-        onNext={onStepNext}
-        onSendCode={onSendCode}
-        user={user}
-        setUser={setUser}
-      />
-    ),
-    1: <Step1 onSubmit={onSubmit} user={user} setUser={setUser} />,
+    0: <Step0 onNext={onStepNext} user={user} setUser={setUser} />,
+    1: <Step1 user={user} setUser={setUser} />,
   };
 
   const renderStep = () => stepComponents[step] || <div>Invalid Step</div>;

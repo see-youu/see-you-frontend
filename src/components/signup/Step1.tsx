@@ -4,14 +4,15 @@ import InputSection from "../input/InputSection";
 import { useState } from "react";
 import { UserType } from "@/types/userType";
 import useValidation from "@/hooks/useValidation";
+import { signupUser } from "@/api/signup";
+import { useRouter } from "next/navigation";
 
 type Step1Props = {
-  onSubmit: () => void;
   user: UserType;
   setUser: React.Dispatch<React.SetStateAction<UserType>>;
 };
 
-const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
+const Step1: React.FC<Step1Props> = ({ user, setUser }) => {
   const [tmpUser, setTmpUser] = useState({
     username: "",
     password: "",
@@ -27,17 +28,23 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
     handleConfirmPassword,
   } = useValidation();
 
+  const router = useRouter();
+
+  const onSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { confirmPassword, ...restOfTmpUser } = tmpUser;
+    setUser({ ...restOfTmpUser, phone: user.phone });
+    // const cleanedUser = cleanObject({ ...restOfTmpUser, phone: user.phone });
+    const isSuccess = await signupUser({ ...restOfTmpUser, phone: user.phone });
+    if (isSuccess) {
+      router.push("/login");
+    }
+  };
+
   return (
     <>
       <h2 className="text-lg">회원정보</h2>
-      <form
-        className="flex flex-col gap-3 w-80"
-        onSubmit={(e) => {
-          e.preventDefault();
-          setUser({ ...tmpUser, phoneNumber: user.phoneNumber });
-          onSubmit();
-        }}
-      >
+      <form className="flex flex-col gap-3 w-80" onSubmit={onSignup}>
         <InputSection label="아이디">
           <InputField
             required
@@ -59,7 +66,7 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
           <InputField
             required
             type="password"
-            placeholder="비밀번호를 입력하세요."
+            placeholder="문자, 숫자, 기호를 포함한 최소 8자 이상"
             value={tmpUser.password}
             onChange={(e) => {
               setTmpUser((current) => ({
@@ -138,8 +145,7 @@ const Step1: React.FC<Step1Props> = ({ onSubmit, user, setUser }) => {
           disabled={
             !validState.username.valid ||
             !validState.confirmPassword.valid ||
-            !validState.nickname.valid ||
-            tmpUser.name === ""
+            !validState.nickname.valid
           }
         >
           가입하기

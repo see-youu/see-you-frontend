@@ -12,15 +12,14 @@ const INITIAL_TIMER = 10;
 
 type Step0Props = {
   onNext: () => void;
-  onSendCode: () => void;
   user: UserType;
   setUser: React.Dispatch<React.SetStateAction<UserType>>;
 };
 
-const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
+const Step0: React.FC<Step0Props> = ({ onNext, user, setUser }) => {
   const [timer, setTimer] = useTimer();
   const [buttonText, setButtonText] = useState<string>("인증번호 전송");
-  const [phoneNumber, setPhoneNumber] = useState<string>(user.phoneNumber);
+  const [phoneNumber, setPhoneNumber] = useState<string>(user.phone);
   const [numberCode, setNumberCode] = useState<string>("");
 
   const { validState, handleValidPhoneNumber, handleValidPhoneCode } =
@@ -30,22 +29,15 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
     if (validState.phoneNumber) onNext();
   };
 
-  useEffect(() => {
-    const minutes = Math.floor(timer / 60);
-    const seconds = timer % 60;
-    if (timer === 0) setButtonText("인증번호 전송");
-    else if (timer > 0) {
-      setButtonText(
-        `재전송 (${minutes}:${seconds < 10 ? `0${seconds}` : seconds})`
-      );
-    }
-  }, [timer]);
+  const onSendCode = () => {
+    console.log("인증코드 전송");
+  };
 
   const handleCheckCode = () => {
     if (validState.phoneCode.valid) {
       setUser((current: UserType) => ({
         ...current,
-        phoneNumber: phoneNumber,
+        phone: phoneNumber,
       }));
       onStepNext();
     }
@@ -58,6 +50,16 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
     }
   };
 
+  useEffect(() => {
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    if (timer === 0) setButtonText("인증번호 전송");
+    else if (timer > 0) {
+      setButtonText(
+        `재전송 (${minutes}:${seconds < 10 ? `0${seconds}` : seconds})`
+      );
+    }
+  }, [timer]);
   return (
     <>
       <h2 className="text-lg">전화번호 인증</h2>
@@ -95,7 +97,12 @@ const Step0: React.FC<Step0Props> = ({ onNext, onSendCode, user, setUser }) => {
           error={validState.phoneCode.valid === false}
           errorMessage={validState.phoneCode.message}
         />
-        <SubmitButton onClick={handleCheckCode}>확인</SubmitButton>
+        <SubmitButton
+          onClick={handleCheckCode}
+          disabled={!validState.phoneNumber.valid || numberCode === ""}
+        >
+          확인
+        </SubmitButton>
       </InputSection>
     </>
   );
