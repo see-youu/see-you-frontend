@@ -9,9 +9,7 @@ type SubmitButtonProps = {
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
   children,
-  onClick = () => {
-    console.log("click");
-  },
+  onClick,
   width = "w-full",
   height = "h-10",
   className = "",

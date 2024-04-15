@@ -11,7 +11,7 @@ export default function Home() {
         <Link href="/hello">
           <button>go to hello page</button>
         </Link>
-        <Link href="/login">
+        <Link href="/signin">
           <button
             type="button"
             className="block rounded bg-yellow-300 text-sm px-6 pb-2 pt-2.5 font-medium uppercase s text-whit"
