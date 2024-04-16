@@ -25,6 +25,7 @@ const Step1: React.FC<Step1Props> = ({ user, setUser }) => {
     validState,
     handleValidUsername,
     handleValidNickname,
+    handleValidPassword,
     handleConfirmPassword,
   } = useValidation();
 
@@ -74,10 +75,9 @@ const Step1: React.FC<Step1Props> = ({ user, setUser }) => {
                 password: e.target.value,
               }));
             }}
-            onBlur={() =>
-              handleConfirmPassword(tmpUser.password, tmpUser.confirmPassword)
-            }
-            error={validState.confirmPassword.valid === false}
+            onBlur={() => handleValidPassword(tmpUser.password)}
+            error={validState.password.valid === false}
+            errorMessage={validState.password.message}
           />
           <InputField
             required

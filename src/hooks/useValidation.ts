@@ -10,6 +10,7 @@ const useValidation = () => {
   const [validState, setValidState] = useState<ValidationState>({
     username: { valid: null, message: "", loading: false },
     nickname: { valid: null, message: "", loading: false },
+    password: { valid: null, message: "", loading: false },
     confirmPassword: { valid: null, message: "" },
     phoneNumber: { valid: null, message: "" },
     phoneCode: { valid: null, message: "" },
@@ -93,6 +94,23 @@ const useValidation = () => {
     }
   };
 
+  const handleValidPassword = async (password: string) => {
+    const pattern = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*\W).{8,}$/;
+    setValidState((current) => ({
+      ...current,
+      password: { ...current.password, laoding: true },
+    }));
+    const isPattern = pattern.test(password);
+    setValidState((current) => ({
+      ...current,
+      password: {
+        valid: isPattern,
+        message: isPattern ? "" : "비밀번호 형식에 일치하지 않습니다.",
+        loading: false,
+      },
+    }));
+  };
+
   const handleConfirmPassword = (password: string, confirmPassword: string) => {
     const isValid = !!confirmPassword && password === confirmPassword;
     setValidState((current) => ({
@@ -158,6 +176,7 @@ const useValidation = () => {
     validState,
     handleValidUsername,
     handleValidNickname,
+    handleValidPassword,
     handleConfirmPassword,
     handleValidPhoneNumber,
     handleValidPhoneCode,
