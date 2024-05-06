@@ -1,8 +1,11 @@
-import Image from "next/image";
+"use client";
+import { RootState } from "@/store/store";
 import styles from "./page.module.css";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 export default function Home() {
+  // console.log(useSelector((state: RootState) => state.userInfo.nickname));
   return (
     <main className={styles.main}>
       <div>

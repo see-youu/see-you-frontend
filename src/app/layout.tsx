@@ -4,6 +4,7 @@ import "../styles/reset.css";
 import "../styles/globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import { Providers } from "./providers";
 config.autoAddCss = false;
 
 const inter = Inter({ subsets: ["latin"] });
@@ -52,7 +53,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${gaegu.variable}`}>{children}</body>
+      <body className={`${inter.className} ${gaegu.variable}`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

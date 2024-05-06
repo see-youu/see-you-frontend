@@ -38,7 +38,7 @@ const Step1: React.FC<Step1Props> = ({ user, setUser }) => {
     // const cleanedUser = cleanObject({ ...restOfTmpUser, phone: user.phone });
     const isSuccess = await signupUser({ ...restOfTmpUser, phone: user.phone });
     if (isSuccess) {
-      router.push("/login");
+      router.push("/signin");
     }
   };
 
@@ -62,6 +62,9 @@ const Step1: React.FC<Step1Props> = ({ user, setUser }) => {
             error={validState.username.valid === false}
             errorMessage={validState.username.message}
           />
+          <span className="text-xs text-gray-600">
+            * 영문 시작 4~20자 (숫자, 기호 _ . - 사용 가능)
+          </span>
         </InputSection>
         <InputSection label="비밀번호">
           <InputField
@@ -96,6 +99,9 @@ const Step1: React.FC<Step1Props> = ({ user, setUser }) => {
             error={validState.confirmPassword.valid === false}
             errorMessage={validState.confirmPassword.message}
           />
+          <span className="text-xs text-gray-600">
+            * 문자, 숫자, 기호를 포함한 최소 8자 이상
+          </span>
         </InputSection>
         <InputSection label="이름">
           <InputField
@@ -127,6 +133,9 @@ const Step1: React.FC<Step1Props> = ({ user, setUser }) => {
             error={validState.nickname.valid === false}
             errorMessage={validState.nickname.message}
           />
+          <span className="text-xs text-gray-600">
+            * 영문, 한글, 숫자, _ 사용하여 2~20자
+          </span>
         </InputSection>
         <InputSection label="이메일 (선택)">
           <InputField

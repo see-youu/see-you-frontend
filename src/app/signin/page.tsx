@@ -4,9 +4,13 @@ import CloseButton from "@/components/button/CloseButton";
 import SocialLoginButton from "@/components/button/SocialLoginButton";
 import SubmitButton from "@/components/button/SubmitButton";
 import InputField from "@/components/input/InputField";
+import { setIsLogin } from "@/store/isLoginSlice";
+import { setUserInfo } from "@/store/userSlice";
+import { setCookie } from "@/utils/cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   const router = useRouter();
@@ -14,19 +18,26 @@ export default function Login() {
     username: "",
     password: "",
   });
+  const dispatch = useDispatch();
+
   // const [error, setError] = useState<string>("");
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const isSuccess = await signinUser(user);
-      if (isSuccess) {
+      const response = await signinUser(user);
+      if (response?.status === 200) {
+        const token = response.data.AccessToken;
+        setCookie("jwtToken", token);
         router.push("/");
+        dispatch(setIsLogin(true));
+        dispatch(setUserInfo(token));
       } else window.alert("일치하는 회원정보가 없습니다.");
     } catch (err) {
       console.error(err);
       window.alert("일치하는 회원정보가 없습니다.");
     }
   };
+
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen gap-3">
       <CloseButton onClick={() => router.back()} />

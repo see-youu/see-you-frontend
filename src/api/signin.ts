@@ -9,10 +9,8 @@ type SigninType = {
 export const signinUser = async (user: SigninType) => {
   try {
     const response = await api.post(`${SIGNIN_USER}`, user);
-    if (response?.status === 200) return true;
-    else return false;
+    return response;
   } catch (err) {
     console.error(err);
-    return false;
   }
 };

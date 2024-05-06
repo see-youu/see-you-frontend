@@ -43,7 +43,7 @@ const Step0: React.FC<Step0Props> = ({ onNext, user, setUser }) => {
     }
   };
 
-  const handleSendCode = async () => {
+  const handleSendCode = () => {
     if (validState.phoneNumber.valid) {
       onSendCode();
       setTimer(INITIAL_TIMER);
