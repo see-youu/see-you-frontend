@@ -3,9 +3,22 @@ import { RootState } from "@/store/store";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  // console.log(useSelector((state: RootState) => state.userInfo.nickname));
+  const isLogin = useSelector((state: RootState) => state.isLogin.value);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLogin) {
+      router.replace("/home");
+    }
+  }, [isLogin, router]);
+
+  if (isLogin) {
+    return null; // Do not render anything until redirecting
+  }
   return (
     <main className={styles.main}>
       <div>
