@@ -1,10 +1,13 @@
 "use client";
-import { RootState } from "@/store/store";
-import { useSelector } from "react-redux";
+import Menubar from "@/components/menubar/menubar";
+import { getUsername } from "@/utils/jwtToken";
 
 export default function () {
-  const userNickname = useSelector(
-    (state: RootState) => state.userInfo.nickname
+  const userNickname = getUsername();
+  return (
+    <div className="bg-yellow-50">
+      <span>{userNickname} 로그인 성공</span>
+      <Menubar />
+    </div>
   );
-  return <div>{userNickname} 로그인 성공</div>;
 }

@@ -92,8 +92,7 @@ html {
     rgb(214, 219, 220);
 }
 
-html,
-body {
+html {
   max-width: 100vw;
   overflow-x: hidden;
 }

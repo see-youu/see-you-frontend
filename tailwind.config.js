@@ -10,6 +10,9 @@ module.exports = {
       colors: {
         customYellow: "#FFE792",
       },
+      maxWidth: {
+        "px-480": "480px",
+      },
     },
   },
   plugins: [],
