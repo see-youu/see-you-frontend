@@ -133,3 +133,9 @@ a {
 .gaegu {
   font-family: var(--font-gaegu);
 }
+
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+}
