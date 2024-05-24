@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         customYellow: "#FFE792",
+        customBrown: "#6B4D00",
       },
       maxWidth: {
         "px-480": "480px",
