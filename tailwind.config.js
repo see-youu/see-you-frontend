@@ -10,6 +10,7 @@ module.exports = {
       colors: {
         customYellow: "#FFE792",
         customBrown: "#6B4D00",
+        customOpacityGray: "#8080806d",
       },
       maxWidth: {
         "px-480": "480px",

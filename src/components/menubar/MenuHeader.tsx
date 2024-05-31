@@ -9,7 +9,7 @@ interface MenuHeaderProps {
 const MenuHeader: React.FC<MenuHeaderProps> = ({ title }) => {
   const { goBack } = useNavigation();
   return (
-    <nav className="grid grid-cols-5 p-3 text-xl items-center font-light border-b-2 border-solid border-b-gray-300">
+    <nav className="font-mediums grid grid-cols-5 p-3 text-xl items-center border-b-2 border-solid border-b-gray-300">
       <FontAwesomeIcon
         icon={faChevronLeft}
         className="col-span-1 cursor-pointer"

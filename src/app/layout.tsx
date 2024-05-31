@@ -5,6 +5,7 @@ import "../styles/globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { Providers } from "./providers";
+import Script from "next/script";
 config.autoAddCss = false;
 
 const inter = Inter({ subsets: ["latin"] });
@@ -53,6 +54,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Script
+        type="text/javascript"
+        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wn6b2vfwot`}
+      />
       <body className={`${inter.className} ${gaegu.variable}`}>
         <Providers>{children}</Providers>
       </body>

@@ -1,6 +1,6 @@
-import SubmitButton from "../button/SubmitButton";
-import InputField from "../input/InputField";
-import InputSection from "../input/InputSection";
+import SubmitButton from "../../components/button/SubmitButton";
+import InputField from "../../components/input/InputField";
+import InputSection from "../../components/input/InputSection";
 import { useState } from "react";
 import { UserType } from "@/types/userType";
 import useValidation from "@/hooks/useValidation";

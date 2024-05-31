@@ -2,10 +2,18 @@ import React from "react";
 
 interface ModalWrapperProps {
   children: React.ReactNode;
+  handleClose: React.MouseEventHandler<HTMLDivElement>;
 }
-const ModalWrapper: React.FC<ModalWrapperProps> = ({ children }) => {
+
+const ModalWrapper: React.FC<ModalWrapperProps> = ({
+  children,
+  handleClose,
+}) => {
   return (
-    <div className="fixed top-0 left-0 flex items-center justify-center w-full h-screen overflow-hidden bg-gray-600">
+    <div
+      className="absolute top-0 left-0 flex items-center justify-center w-full h-screen overflow-hidden bg-customOpacityGray"
+      onClick={handleClose}
+    >
       {children}
     </div>
   );

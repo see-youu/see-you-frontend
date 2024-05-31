@@ -777,7 +777,7 @@
 }
 .react-datepicker__close-icon::after {
   cursor: pointer;
-  background-color: #ffe37f;
+  background-color: #e5e5e5;
   color: black;
   border-radius: 50%;
   height: 16px;

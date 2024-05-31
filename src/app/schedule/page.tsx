@@ -1,6 +1,8 @@
 "use client";
+import NaverMap from "@/components/map/NaverMap";
 import MenuHeader from "@/components/menubar/MenuHeader";
-import TimeSelect from "@/components/select/\bTimeSelect";
+import InsertLocationModal from "@/components/modal/InsertLocationModal";
+import TimeSelect from "@/components/select/TimeSelect";
 import DateRangeSelect from "@/components/select/DateRangeSelect";
 import DaySelect from "@/components/select/DaySelect";
 import { useState } from "react";
@@ -14,44 +16,16 @@ export default function () {
     days: "1",
     time: "미정",
     startTime: null,
-    endTime: null,
   });
-
-  const [date, setDate] = useState(0);
 
   const dateButton = [{ name: "미정" }, { name: "날짜 선택" }];
   const timeButton = [{ name: "미정" }, { name: "시간 선택" }];
-
-  // const DaySelector = () => {
-  //   const days = [];
-  //   for (let i = 1; i <= 10; i++) {
-  //     days.push(
-  //       <li
-  //         onClick={() => {
-  //           setScheduleInput((current) => ({ ...current, days: `${i}` }));
-  //         }}
-  //       >
-  //         {i}일
-  //       </li>
-  //     );
-  //   }
-
-  //   return (
-  //     <>
-  //       <div className="relative w-full px-3 py-1 text-sm text-center border border-solid cursor-pointer border-customBrown rounded-xl">
-  //         <span>{scheduleInput.days}일</span>
-  //         <FontAwesomeIcon
-  //           icon={faChevronDown}
-  //           className="absolute right-5 top-1.5 cursor-pointer"
-  //         />
-  //       </div>
-  //       <ul>{days}</ul>
-  //     </>
-  //   );
-  // };
-
+  const [mapOpen, setMapOpen] = useState(false);
+  const handleModalClose = () => {
+    setMapOpen(false);
+  };
   return (
-    <div>
+    <div className="relative">
       <MenuHeader title="새 약속 만들기" />
       <main className="flex flex-col items-center gap-4 mx-8 my-4">
         <p className="text-sm text-center text-customBrown">
@@ -93,12 +67,7 @@ export default function () {
               </button>
             ))}
           </div>
-          {scheduleInput.date === "미정" ? (
-            <DaySelect
-              scheduleInput={scheduleInput}
-              setScheduleInput={setScheduleInput}
-            />
-          ) : (
+          {scheduleInput.date !== "미정" && (
             <DateRangeSelect
               scheduleInput={scheduleInput}
               setScheduleInput={setScheduleInput}
@@ -132,6 +101,19 @@ export default function () {
               setScheduleInput={setScheduleInput}
             />
           )}
+        </section>
+        <section className="flex flex-col w-full gap-2">
+          <p>약속 장소</p>
+          <div className="flex justify-between w-full gap-2">
+            <button
+              className={`w-1/3 py-1 text-sm border border-solid border-customBrown rounded-xl cursor-pointer
+                bg-customYellow`}
+              onClick={() => setMapOpen(true)}
+            >
+              장소 추가하기
+            </button>
+          </div>
+          {mapOpen && <InsertLocationModal handleClose={handleModalClose} />}
         </section>
       </main>
     </div>
