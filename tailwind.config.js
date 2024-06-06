@@ -15,6 +15,10 @@ module.exports = {
       maxWidth: {
         "px-480": "480px",
       },
+      height: {
+        menubar: "3.5rem",
+        withoutMenubarHeight: `calc(100vh-3.5rem)`,
+      },
     },
   },
   plugins: [],

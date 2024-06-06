@@ -1,7 +1,6 @@
 "use client";
-import { signupUser } from "@/api/signup";
-import Step0 from "@/components/signup/Step0";
-import Step1 from "@/components/signup/Step1";
+import Step0 from "./Step0";
+import Step1 from "./Step1";
 import { UserType } from "@/types/userType";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
