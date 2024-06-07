@@ -1,5 +1,3 @@
-"use client";
-
 import {
   faHouse,
   faMagnifyingGlass,
@@ -12,7 +10,7 @@ import Link from "next/link";
 
 const Menubar = () => {
   return (
-    <nav className="fixed bottom-0 flex items-center justify-around w-full text-xl bg-white border-t border-gray-300 border-solid max-w-px-480 px-2">
+    <nav className="fixed bottom-0 flex items-center justify-around w-full px-2 text-xl bg-white border-t border-gray-300 border-solid max-w-px-480">
       <Link href="/home" passHref>
         <FontAwesomeIcon icon={faHouse} className="cursor-pointer" />
       </Link>
