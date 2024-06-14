@@ -24,7 +24,10 @@ export default function () {
   };
 
   return (
-    <main className="flex flex-col items-center gap-4 mx-8 my-4">
+    <main
+      className="flex flex-col items-center gap-4 px-8 py-4"
+      style={{ height: `calc(100vh - var(--menubar-height))` }}
+    >
       <p className="text-sm text-center text-customBrown">
         나중에 수정할 수 있어요!
       </p>
@@ -110,8 +113,8 @@ export default function () {
             장소 추가하기
           </button>
         </div>
-        {mapOpen && <InsertLocationModal handleClose={handleModalClose} />}
       </section>
+      {mapOpen && <InsertLocationModal handleClose={handleModalClose} />}
     </main>
   );
 }

@@ -40,7 +40,12 @@ const NaverMap = () => {
     }
   }, [naverMapsLoaded]); // naverMapsLoaded가 변경될 때만 실행
 
-  return <div ref={mapElement} className="w-96 h-96"></div>;
+  return (
+    <div
+      ref={mapElement}
+      className="absolute top-0 left-0 w-full h-screen"
+    ></div>
+  );
 };
 
 export default NaverMap;

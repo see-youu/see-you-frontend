@@ -11,6 +11,8 @@ module.exports = {
         customYellow: "#FFE792",
         customBrown: "#6B4D00",
         customOpacityGray: "#8080806d",
+        lightGray100: "#d1d1d1",
+        lightGray200: "#909090",
       },
       maxWidth: {
         "px-480": "480px",
@@ -18,6 +20,13 @@ module.exports = {
       height: {
         menubar: "3.5rem",
         withoutMenubarHeight: `calc(100vh-3.5rem)`,
+      },
+      zIndex: {
+        100: "100",
+        200: "200",
+      },
+      gridTemplateColumns: {
+        "1-5-1-1": "1fr 5fr 1fr 0.5fr",
       },
     },
   },
