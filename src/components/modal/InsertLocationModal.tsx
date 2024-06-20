@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import SearchPlaceModal from "./SearchPlaceModal";
 import RecentSearchList from "../list/RecentSearchList";
+import SearchPlaceList from "../list/SearchPlaceList";
 
 interface InsertModalProps {
   handleClose: () => void;
@@ -17,13 +18,15 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
   const [data, setData] = useState(null);
   const [searchPlace, setSearchPlace] = useState("");
   const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [searchListModalOpen, setSearchListModalOpen] = useState(false);
   const fetchData = async () => {
     try {
       const response = await axios.get(
         `/api/naver/search?query=${searchPlace}`
       );
-      setData(response.data);
+      setData(response.data.data.items);
       console.log(response.data);
+      setSearchListModalOpen(true);
     } catch (error) {
       console.error("API 호출 중 에러 발생:", error);
     }
@@ -36,8 +39,18 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
   };
 
   const handleBack = () => {
-    if (searchModalOpen) setSearchModalOpen(false);
-    else handleClose();
+    if (searchModalOpen) {
+      if (searchListModalOpen) setSearchListModalOpen(false);
+      else setSearchModalOpen(false);
+      setSearchPlace("");
+    } else handleClose();
+  };
+
+  const render = () => {
+    if (searchModalOpen) {
+      if (searchListModalOpen) return <SearchPlaceList searchPlaces={data} />;
+      return <RecentSearchList />;
+    } else return <NaverMap />;
   };
   return (
     <>
@@ -71,7 +84,7 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </form>
-          {searchModalOpen ? <RecentSearchList /> : <NaverMap />}
+          {render()}
         </div>
       </ModalWrapper>
     </>
