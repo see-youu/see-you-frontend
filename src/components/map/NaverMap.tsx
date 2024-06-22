@@ -1,6 +1,7 @@
+import { NaverLocationType } from "@/types/naverMapTypes";
 import { useEffect, useRef, useState } from "react";
 
-const NaverMap = () => {
+const NaverMap: React.FC<NaverLocationType> = ({ lat, lng }) => {
   const mapElement = useRef(null);
 
   // 비동기적으로 화면이 로드될 때 네이버 맵스 스크립트가 로드되는지 확인하고 로드가 되면 지도를 그리기 위해 필요한 로직!
@@ -26,7 +27,7 @@ const NaverMap = () => {
     // 지도 초기화
     if (mapElement.current && naverMapsLoaded) {
       const { naver } = window;
-      const location = new naver.maps.LatLng(37.3595704, 127.105399);
+      const location = new naver.maps.LatLng(lat, lng);
       const mapOptions = {
         center: location,
         zoom: 16,
@@ -38,7 +39,7 @@ const NaverMap = () => {
         map: map,
       });
     }
-  }, [naverMapsLoaded]); // naverMapsLoaded가 변경될 때만 실행
+  }, [naverMapsLoaded, lat, lng]); // naverMapsLoaded가 변경될 때만 실행
 
   return (
     <div

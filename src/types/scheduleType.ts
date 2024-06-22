@@ -1,4 +1,4 @@
-interface ScheduleProps {
+export interface ScheduleProps {
   name: string;
   date: string | null;
   startDate: Date | null;

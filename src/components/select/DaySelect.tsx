@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ScheduleProps } from "@/types/scheduleType";
 
 interface DaySelectProps {
   scheduleInput: ScheduleProps;

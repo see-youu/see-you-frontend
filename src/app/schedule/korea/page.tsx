@@ -4,6 +4,7 @@ import InsertLocationModal from "@/components/modal/InsertLocationModal";
 import TimeSelect from "@/components/select/TimeSelect";
 import DateRangeSelect from "@/components/select/DateRangeSelect";
 import { useState } from "react";
+import { ScheduleProps } from "@/types/scheduleType";
 
 export default function () {
   const [scheduleInput, setScheduleInput] = useState<ScheduleProps>({

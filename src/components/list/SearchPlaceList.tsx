@@ -1,3 +1,4 @@
+import { NaverLocationType } from "@/types/naverMapTypes";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -16,8 +17,12 @@ interface Place {
 
 interface SearchPlaceListProps {
   searchPlaces: Place[] | null;
+  handleFindLocation: (location: NaverLocationType) => void;
 }
-const SearchPlaceList: React.FC<SearchPlaceListProps> = ({ searchPlaces }) => {
+const SearchPlaceList: React.FC<SearchPlaceListProps> = ({
+  searchPlaces,
+  handleFindLocation,
+}) => {
   return (
     <div className="w-full mt-4 overflow-auto cursor-default">
       <ul>
@@ -31,6 +36,23 @@ const SearchPlaceList: React.FC<SearchPlaceListProps> = ({ searchPlaces }) => {
               <li
                 className="flex items-center justify-start px-8 py-3 border-b border-solid border-lightGray100 text-lightGray200"
                 key={idx}
+                onClick={() => {
+                  const integerPartLat = item.mapy.substring(0, 2); // 첫 두 자리는 정수 부분
+                  const decimalPartLat = item.mapy.substring(2); // 나머지는 소수점 아래 부분
+                  const integerPartLng = item.mapx.substring(0, 3);
+                  const decimalPartLng = item.mapx.substring(3);
+                  const formattedNumberLat = Number(
+                    integerPartLat + "." + decimalPartLat
+                  );
+                  const formattedNumberLng = Number(
+                    integerPartLng + "." + decimalPartLng
+                  );
+                  console.log(formattedNumberLat, formattedNumberLng);
+                  handleFindLocation({
+                    lat: formattedNumberLat,
+                    lng: formattedNumberLng,
+                  });
+                }}
               >
                 <FontAwesomeIcon icon={faLocationDot} className="mr-8" />
                 <main className="flex flex-col flex-1">

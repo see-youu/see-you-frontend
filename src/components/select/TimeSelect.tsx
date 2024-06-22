@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "../../styles/react-datepicker.css";
+import { ScheduleProps } from "@/types/scheduleType";
 
 interface TimeSelectProps {
   scheduleInput: ScheduleProps;
