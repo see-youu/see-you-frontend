@@ -1,17 +1,10 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "../../styles/react-datepicker.css";
-import { ScheduleProps } from "@/types/scheduleType";
+import { useSchedule } from "@/context/schedule/ScheduleProvider";
 
-interface TimeSelectProps {
-  scheduleInput: ScheduleProps;
-  setScheduleInput: React.Dispatch<React.SetStateAction<ScheduleProps>>;
-}
-
-const TimeSelect: React.FC<TimeSelectProps> = ({
-  scheduleInput,
-  setScheduleInput,
-}) => {
+const TimeSelect = () => {
+  const { scheduleInput, setScheduleInput } = useSchedule();
   return (
     <DatePicker
       selected={scheduleInput.startTime}

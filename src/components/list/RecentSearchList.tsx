@@ -1,33 +1,29 @@
 "use client";
+import { NaverLocationType } from "@/types/naverMapTypes";
 import { faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
-const RecentSearchList = () => {
-  const [recentKeyword, setRecentKeyword] = useState([
-    {
-      id: 0,
-      keyword: "소문난감자탕",
-      date: "06.13",
-      type: "place",
-    },
-    {
-      id: 1,
-      keyword: "감자빵",
-      date: "06.14",
-      type: "word",
-    },
-    {
-      id: 2,
-      keyword: "고기",
-      date: "06.14",
-      type: "word",
-    },
-  ]);
+interface KeywordType {
+  id: number;
+  keyword: string;
+  date: string;
+  type: string;
+}
 
+interface RecentSearchListProps {
+  handleFindLocation: (location: NaverLocationType) => void;
+  recentKeyword: KeywordType[] | [];
+  setRecentKeyword: (keywords: KeywordType[]) => void;
+}
+const RecentSearchList: React.FC<RecentSearchListProps> = ({
+  recentKeyword,
+  setRecentKeyword,
+  handleFindLocation,
+}) => {
   const reversedKeywords = [...recentKeyword].reverse();
 
-  const deleteSearchItem = (id: Number) => {
+  const deleteSearchItem = (id: number) => {
     setRecentKeyword(recentKeyword.filter((current) => current.id !== id));
   };
   return (

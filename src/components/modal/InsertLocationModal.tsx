@@ -15,6 +15,13 @@ interface InsertModalProps {
   handleClose: () => void;
 }
 
+interface KeywordType {
+  id: number;
+  keyword: string;
+  date: string;
+  type: string;
+}
+
 const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
   const [data, setData] = useState(null);
   const [searchPlace, setSearchPlace] = useState("");
@@ -29,6 +36,28 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
     lat: 37.3595704,
     lng: 127.105399,
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [recentKeyword, setRecentKeyword] = useState<KeywordType[]>([
+    {
+      id: 0,
+      keyword: "소문난감자탕",
+      date: "06.13",
+      type: "place",
+    },
+    {
+      id: 1,
+      keyword: "감자빵",
+      date: "06.14",
+      type: "word",
+    },
+    {
+      id: 2,
+      keyword: "고기",
+      date: "06.14",
+      type: "word",
+    },
+  ]);
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -55,7 +84,9 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
   };
 
   const render = () => {
+    // 장소 검색창이 켜져있을때
     if (searchModalOpen) {
+      // 장소 검색창 -> 검색 목록 보여주는 창 켜저있을때
       if (searchListModalOpen)
         return (
           <SearchPlaceList
@@ -63,9 +94,18 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
             handleFindLocation={handleFindLocation}
           />
         );
-      return <RecentSearchList />;
-    } else
+      // 장소 검색창 누르면 최근 검색 목록 보여줌
+      return (
+        <RecentSearchList
+          handleFindLocation={handleFindLocation}
+          recentKeyword={recentKeyword}
+          setRecentKeyword={setRecentKeyword}
+        />
+      );
+    } else {
+      // 장소 검색창이 꺼져있으면 지도화면만 현재 지도화면만 나타나면 됨
       return <NaverMap lat={currentLocation.lat} lng={currentLocation.lng} />;
+    }
   };
 
   const handleFindLocation = (location: NaverLocationType) => {
@@ -73,7 +113,9 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
     setPlaceLocationModalOpen(true);
   };
 
+  // 현재 위치 가져오는 로직
   useEffect(() => {
+    setIsLoading(true);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -91,8 +133,10 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
+    setIsLoading(false);
   }, []);
 
+  if (isLoading) return <div>loading....</div>;
   return (
     <>
       {placeLocationModalOpen ? (

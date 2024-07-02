@@ -1,16 +1,9 @@
 import DatePicker from "react-datepicker";
 import "../../styles/react-datepicker.css";
-import { ScheduleProps } from "@/types/scheduleType";
+import { useSchedule } from "@/context/schedule/ScheduleProvider";
 
-interface DateSelectProps {
-  scheduleInput: ScheduleProps;
-  setScheduleInput: React.Dispatch<React.SetStateAction<ScheduleProps>>;
-}
-
-const DateRangeSelect: React.FC<DateSelectProps> = ({
-  scheduleInput,
-  setScheduleInput,
-}) => {
+const DateRangeSelect = () => {
+  const { scheduleInput, setScheduleInput } = useSchedule();
   const onChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
     setScheduleInput((current) => ({

@@ -108,6 +108,7 @@ body {
     )
     rgb(var(--background-start-rgb));
   width: 100%;
+  min-width: 320px;
   max-width: 480px;
   margin: 0 auto;
   height: auto;

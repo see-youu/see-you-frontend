@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ScheduleProps } from "@/types/scheduleType";
-
-interface DaySelectProps {
-  scheduleInput: ScheduleProps;
-  setScheduleInput: React.Dispatch<React.SetStateAction<ScheduleProps>>;
-}
-
-const DaySelect: React.FC<DaySelectProps> = ({
-  scheduleInput,
-  setScheduleInput,
-}) => {
+import { useSchedule } from "@/context/schedule/ScheduleProvider";
+<i></i>;
+const DaySelect = () => {
+  const { scheduleInput, setScheduleInput } = useSchedule();
   const [listOpen, setListOpen] = useState<boolean>(false);
   const days = [];
   for (let i = 1; i <= 10; i++) {
