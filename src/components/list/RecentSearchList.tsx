@@ -1,8 +1,7 @@
 "use client";
-import { NaverLocationType } from "@/types/naverMapTypes";
 import { faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React from "react";
 
 interface KeywordType {
   id: number;
@@ -12,7 +11,7 @@ interface KeywordType {
 }
 
 interface RecentSearchListProps {
-  handleFindLocation: (location: NaverLocationType) => void;
+  handleFindLocation: () => void;
   recentKeyword: KeywordType[] | [];
   setRecentKeyword: (keywords: KeywordType[]) => void;
 }

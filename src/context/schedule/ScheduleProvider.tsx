@@ -17,7 +17,6 @@ export function useSchedule() {
   }
   return context;
 }
-
 interface ScheduleProviderProps {
   children: ReactNode;
 }

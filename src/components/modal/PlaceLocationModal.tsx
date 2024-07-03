@@ -3,23 +3,21 @@ import React from "react";
 import ModalWrapper from "./ModalWrapper";
 import NaverMap from "../map/NaverMap";
 import MenuHeader from "../menubar/MenuHeader";
-import { NaverLocationType } from "@/types/naverMapTypes";
+import { useLocation } from "@/context/schedule/LocationProvider";
 
 interface InsertModalProps {
   handleClose: () => void;
-  location: NaverLocationType;
   searchKeyword: string;
 }
 
 const PlaceLocationModal: React.FC<InsertModalProps> = ({
   handleClose,
-  location,
   searchKeyword,
 }) => {
   const handleBack = () => {
     handleClose();
   };
-
+  const { location } = useLocation();
   return (
     <ModalWrapper>
       <MenuHeader title={searchKeyword} handleBack={handleBack} />
@@ -28,7 +26,7 @@ const PlaceLocationModal: React.FC<InsertModalProps> = ({
         onClick={(e) => e.stopPropagation()}
         style={{ height: `calc(100vh - var(--menubar-height))` }}
       >
-        <NaverMap lat={location.lat} lng={location.lng} />
+        <NaverMap lat={location.latitude} lng={location.longitude} />
       </div>
     </ModalWrapper>
   );

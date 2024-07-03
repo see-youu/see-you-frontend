@@ -1,4 +1,4 @@
-import { NaverLocationType } from "@/types/naverMapTypes";
+import { useLocation } from "@/context/schedule/LocationProvider";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -17,12 +17,13 @@ interface Place {
 
 interface SearchPlaceListProps {
   searchPlaces: Place[] | null;
-  handleFindLocation: (location: NaverLocationType) => void;
+  handleFindLocation: () => void;
 }
 const SearchPlaceList: React.FC<SearchPlaceListProps> = ({
   searchPlaces,
   handleFindLocation,
 }) => {
+  const { location, setLocation } = useLocation();
   return (
     <div className="w-full mt-4 overflow-auto cursor-default">
       <ul>
@@ -51,6 +52,13 @@ const SearchPlaceList: React.FC<SearchPlaceListProps> = ({
                   handleFindLocation({
                     lat: formattedNumberLat,
                     lng: formattedNumberLng,
+                  });
+                  setLocation({
+                    title: item.title,
+                    category: item.category,
+                    address: item.address,
+                    longitude: formattedNumberLng,
+                    latitude: formattedNumberLat,
                   });
                 }}
               >

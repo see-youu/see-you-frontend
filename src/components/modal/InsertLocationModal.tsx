@@ -10,6 +10,7 @@ import RecentSearchList from "../list/RecentSearchList";
 import SearchPlaceList from "../list/SearchPlaceList";
 import { NaverLocationType } from "@/types/naverMapTypes";
 import PlaceLocationModal from "./PlaceLocationModal";
+import { useLocation } from "@/context/schedule/LocationProvider";
 
 interface InsertModalProps {
   handleClose: () => void;
@@ -28,10 +29,6 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchListModalOpen, setSearchListModalOpen] = useState(false);
   const [placeLocationModalOpen, setPlaceLocationModalOpen] = useState(false);
-  const [location, setLocation] = useState<NaverLocationType>({
-    lat: 37.3595704,
-    lng: 127.105399,
-  });
   const [currentLocation, setCurrentLocation] = useState<NaverLocationType>({
     lat: 37.3595704,
     lng: 127.105399,
@@ -108,8 +105,7 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
     }
   };
 
-  const handleFindLocation = (location: NaverLocationType) => {
-    setLocation(location);
+  const handleFindLocation = () => {
     setPlaceLocationModalOpen(true);
   };
 
@@ -142,7 +138,7 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
       {placeLocationModalOpen ? (
         <PlaceLocationModal
           handleClose={() => setPlaceLocationModalOpen(false)}
-          location={location}
+          //location={location}
           searchKeyword={searchPlace}
         />
       ) : (

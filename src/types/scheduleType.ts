@@ -7,3 +7,11 @@ export interface ScheduleProps {
   time: string | null;
   startTime: Date | null;
 }
+
+export interface LocationType {
+  title: string;
+  category: string;
+  address: string;
+  longitude: number;
+  latitude: number;
+}
