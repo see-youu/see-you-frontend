@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
     }
 
     const data = await response.json(); // JSON 데이터 파싱
-    console.log(data);
     return Response.json({ data });
   } catch (error) {
     const message =

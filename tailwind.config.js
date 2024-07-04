@@ -14,6 +14,9 @@ module.exports = {
         lightGray100: "#d1d1d1",
         lightGray200: "#909090",
       },
+      minWidth: {
+        "px-320": "320px",
+      },
       maxWidth: {
         "px-480": "480px",
       },

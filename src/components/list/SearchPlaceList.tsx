@@ -1,4 +1,4 @@
-import { useLocation } from "@/context/schedule/LocationProvider";
+import { usePlace } from "@/context/schedule/PlaceProvider";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -23,7 +23,7 @@ const SearchPlaceList: React.FC<SearchPlaceListProps> = ({
   searchPlaces,
   handleFindLocation,
 }) => {
-  const { location, setLocation } = useLocation();
+  const { setPlace } = usePlace();
   return (
     <div className="w-full mt-4 overflow-auto cursor-default">
       <ul>
@@ -35,7 +35,7 @@ const SearchPlaceList: React.FC<SearchPlaceListProps> = ({
               item.category === "" ? "" : category[category.length - 1];
             return (
               <li
-                className="flex items-center justify-start px-8 py-3 border-b border-solid border-lightGray100 text-lightGray200"
+                className="flex items-center justify-start px-8 py-3 border-b border-solid cursor-pointer border-lightGray100 text-lightGray200"
                 key={idx}
                 onClick={() => {
                   const integerPartLat = item.mapy.substring(0, 2); // 첫 두 자리는 정수 부분
@@ -48,12 +48,8 @@ const SearchPlaceList: React.FC<SearchPlaceListProps> = ({
                   const formattedNumberLng = Number(
                     integerPartLng + "." + decimalPartLng
                   );
-                  console.log(formattedNumberLat, formattedNumberLng);
-                  handleFindLocation({
-                    lat: formattedNumberLat,
-                    lng: formattedNumberLng,
-                  });
-                  setLocation({
+                  handleFindLocation();
+                  setPlace({
                     title: item.title,
                     category: item.category,
                     address: item.address,

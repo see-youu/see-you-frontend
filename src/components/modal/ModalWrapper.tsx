@@ -6,7 +6,7 @@ interface ModalWrapperProps {
 
 const ModalWrapper: React.FC<ModalWrapperProps> = ({ children }) => {
   return (
-    <div className="absolute top-0 left-0 flex flex-col w-full h-screen overflow-hidden bg-white">
+    <div className="fixed top-0 flex flex-col h-screen overflow-hidden bg-white modal-width">
       {children}
     </div>
   );

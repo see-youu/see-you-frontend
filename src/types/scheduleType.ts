@@ -8,7 +8,18 @@ export interface ScheduleProps {
   startTime: Date | null;
 }
 
-export interface LocationType {
+export interface KeywordType {
+  id: number;
+  keyword: string;
+  date: string;
+  type: string;
+  category?: string;
+  address?: string;
+  longitude?: number;
+  latitude?: number;
+}
+
+export interface PlaceType {
   title: string;
   category: string;
   address: string;

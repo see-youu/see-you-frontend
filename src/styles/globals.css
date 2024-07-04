@@ -141,4 +141,7 @@ a {
   .flex-center {
     @apply flex items-center justify-center;
   }
+  .modal-width {
+    @apply w-full min-w-px-320 max-w-px-480;
+  }
 }

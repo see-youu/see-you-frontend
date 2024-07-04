@@ -1,14 +1,14 @@
 "use client";
 import { ScheduleProvider } from "@/context/schedule/ScheduleProvider";
 import KoreaSchedule from "@/components/modal/KoreaSchedule";
-import { LocationProvider } from "@/context/schedule/LocationProvider";
+import { PlaceProvider } from "@/context/schedule/PlaceProvider";
 
 export default function () {
   return (
     <ScheduleProvider>
-      <LocationProvider>
+      <PlaceProvider>
         <KoreaSchedule />
-      </LocationProvider>
+      </PlaceProvider>
     </ScheduleProvider>
   );
 }
