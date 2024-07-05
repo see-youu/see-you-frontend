@@ -34,6 +34,9 @@ module.exports = {
       padding: {
         1.5: "0.35rem",
       },
+      boxShadow: {
+        top: "0 -6px 10px -5px rgb(0 0 0 / 0.3)",
+      },
     },
   },
   plugins: [],

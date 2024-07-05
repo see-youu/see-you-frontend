@@ -32,7 +32,7 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
       keyword: "소문난성수감자탕",
       date: "06.13",
       type: "place",
-      category: "한식>감자탕",
+      category: "감자탕",
       address: "서울특별시 성동구 연무장길 45",
       longitude: 127.0543869,
       latitude: 37.5428369,
