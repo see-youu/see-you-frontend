@@ -26,7 +26,6 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
     lat: 37.3595704,
     lng: 127.105399,
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [recentKeyword, setRecentKeyword] = useState<KeywordType[]>([
     {
       id: 0,
@@ -99,7 +98,6 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
 
   // 현재 위치 가져오는 로직
   useEffect(() => {
-    setIsLoading(true);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -117,10 +115,8 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
-    setIsLoading(false);
   }, []);
 
-  if (isLoading) return <div>loading....</div>;
   return (
     <>
       {placeLocationModalOpen ? (

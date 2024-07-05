@@ -1,11 +1,14 @@
 import { NaverLocationType } from "@/types/naverMapTypes";
 import { useEffect, useRef, useState } from "react";
+import LoadingSpinner from "../spinner/LoadingSpinner";
 
 const NaverMap: React.FC<NaverLocationType> = ({ lat, lng }) => {
   const mapElement = useRef(null);
 
   // 비동기적으로 화면이 로드될 때 네이버 맵스 스크립트가 로드되는지 확인하고 로드가 되면 지도를 그리기 위해 필요한 로직!
   const [naverMapsLoaded, setNaverMapsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (window.naver && window.naver.maps) {
       setNaverMapsLoaded(true);
@@ -38,14 +41,14 @@ const NaverMap: React.FC<NaverLocationType> = ({ lat, lng }) => {
         position: location,
         map: map,
       });
+      setIsLoading(false);
     }
   }, [naverMapsLoaded, lat, lng]); // naverMapsLoaded가 변경될 때만 실행
 
   return (
-    <div
-      ref={mapElement}
-      className="absolute top-0 left-0 w-full h-screen"
-    ></div>
+    <div ref={mapElement} className="absolute top-0 left-0 w-full h-screen">
+      {isLoading && <LoadingSpinner />}
+    </div>
   );
 };
 

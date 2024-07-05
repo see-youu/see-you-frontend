@@ -45,7 +45,7 @@ export const KoreaSchedule = () => {
           {dateButton.map((item, idx) => (
             <button
               key={idx}
-              className={`w-1/2 py-1 text-sm border border-solid border-customBrown rounded-xl cursor-pointer ${
+              className={`w-1/2 py-1.5 text-sm border border-solid border-customBrown rounded-xl cursor-pointer ${
                 scheduleInput.date === item.name ? "bg-customYellow" : "white"
               }`}
               onClick={() => {
@@ -68,7 +68,7 @@ export const KoreaSchedule = () => {
           {timeButton.map((item, idx) => (
             <button
               key={idx}
-              className={`w-1/2 py-1 text-sm border border-solid border-customBrown rounded-xl cursor-pointer ${
+              className={`w-1/2 py-1.5 text-sm border border-solid border-customBrown rounded-xl cursor-pointer ${
                 scheduleInput.time === item.name ? "bg-customYellow" : "white"
               }`}
               onClick={() => {
@@ -89,7 +89,7 @@ export const KoreaSchedule = () => {
         <p>약속 장소</p>
         <div className="flex justify-between w-full gap-2">
           <button
-            className={`w-1/3 p-1 text-sm border border-solid border-customBrown rounded-xl cursor-pointer
+            className={`w-1/3 px-1 py-1.5 text-sm border border-solid border-customBrown rounded-xl cursor-pointer
                 bg-customYellow`}
             onClick={() => setMapOpen(true)}
           >

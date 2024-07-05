@@ -31,6 +31,9 @@ module.exports = {
       gridTemplateColumns: {
         "1-5-1-1": "1fr 5fr 1fr 0.5fr",
       },
+      padding: {
+        1.5: "0.35rem",
+      },
     },
   },
   plugins: [],
