@@ -36,7 +36,7 @@ const RecentSearchList: React.FC<RecentSearchListProps> = ({
       setSearchKeyword(item.keyword);
     } else {
       setPlace({
-        title: item.keyword || "",
+        name: item.keyword || "",
         category: item.category || "",
         address: item.address || "",
         longitude: item.longitude || 127.105399,

@@ -23,7 +23,7 @@ export const PlaceProvider: React.FunctionComponent<PlaceProviderProps> = ({
   children,
 }) => {
   const [place, setPlace] = useState<PlaceType>({
-    title: "",
+    name: "",
     category: "",
     address: "",
     longitude: 127.105399,

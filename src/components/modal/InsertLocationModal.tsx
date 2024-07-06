@@ -124,6 +124,7 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
         <PlaceLocationModal
           handleClose={() => setPlaceLocationModalOpen(false)}
           searchKeyword={searchKeyword}
+          handleAddBtn={handleClose}
         />
       ) : (
         <ModalWrapper>

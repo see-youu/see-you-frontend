@@ -5,6 +5,9 @@ import TimeSelect from "@/components/select/TimeSelect";
 import DateRangeSelect from "@/components/select/DateRangeSelect";
 import { useState } from "react";
 import { useSchedule } from "@/context/schedule/ScheduleProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { PlaceType } from "@/types/scheduleType";
 
 export const KoreaSchedule = () => {
   const { scheduleInput, setScheduleInput } = useSchedule();
@@ -16,6 +19,14 @@ export const KoreaSchedule = () => {
     setMapOpen(false);
   };
 
+  const handleDeletePlace = (indexToRemove: number) => {
+    setScheduleInput((current) => ({
+      ...current,
+      locations: current.locations.filter(
+        (_, index) => index !== indexToRemove
+      ),
+    }));
+  };
   return (
     <main
       className="flex flex-col items-center gap-4 px-8 py-4"
@@ -95,6 +106,30 @@ export const KoreaSchedule = () => {
           >
             장소 추가
           </button>
+        </div>
+        <div className="flex flex-col gap-3 my-3">
+          {scheduleInput.locations.map((location, idx) => (
+            <div key={idx} className="flex items-center">
+              <p className="flex items-center justify-center w-6 h-6 text-xs border border-black border-solid rounded-full bg-customYellow">
+                {idx + 1}
+              </p>
+              <div className="w-5 bg-black h-px-1"></div>
+              <div className="flex items-center gap-5 px-5 py-3 border border-black border-solid rounded-xl">
+                <FontAwesomeIcon icon={faLocationDot} />
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm tracking-wider">{location.name}</p>
+                  <p className="text-xs tracking-wide text-gray-500">
+                    {location.address.split(" ").slice(0, 2).join(" ")}
+                  </p>
+                </div>
+              </div>
+              <FontAwesomeIcon
+                icon={faXmark}
+                className="ml-5 text-gray-500 cursor-pointer"
+                onClick={() => handleDeletePlace(idx)}
+              />
+            </div>
+          ))}
         </div>
       </section>
       {mapOpen && <InsertLocationModal handleClose={handleModalClose} />}

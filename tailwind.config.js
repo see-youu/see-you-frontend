@@ -23,6 +23,7 @@ module.exports = {
       height: {
         menubar: "3.5rem",
         withoutMenubarHeight: `calc(100vh-3.5rem)`,
+        "px-1": "1px",
       },
       zIndex: {
         100: "100",

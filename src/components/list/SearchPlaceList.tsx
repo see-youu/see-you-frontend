@@ -53,7 +53,7 @@ const SearchPlaceList: React.FC<SearchPlaceListProps> = ({
                   setSearchKeyword(cleanedTitle);
                   handleFindLocation();
                   setPlace({
-                    title: cleanedTitle,
+                    name: cleanedTitle,
                     category: lastCategory,
                     address: item.address,
                     longitude: formattedNumberLng,

@@ -6,21 +6,33 @@ import MenuHeader from "../menubar/MenuHeader";
 import { usePlace } from "@/context/schedule/PlaceProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { useSchedule } from "@/context/schedule/ScheduleProvider";
 
 interface InsertModalProps {
   handleClose: () => void;
   searchKeyword: string;
+  handleAddBtn: () => void;
 }
 
 const PlaceLocationModal: React.FC<InsertModalProps> = ({
   handleClose,
   searchKeyword,
+  handleAddBtn,
 }) => {
+  const { place } = usePlace();
+  const { setScheduleInput } = useSchedule();
+  const [showDetail, setShowDetail] = useState(true);
+
   const handleBack = () => {
     handleClose();
   };
-  const { place } = usePlace();
-  const [showDetail, setShowDetail] = useState(true);
+  const handleAddPlace = () => {
+    setScheduleInput((current) => ({
+      ...current,
+      locations: [...current.locations, place],
+    }));
+    handleAddBtn();
+  };
   return (
     <ModalWrapper>
       <MenuHeader title={searchKeyword} handleBack={handleBack} />
@@ -45,7 +57,7 @@ const PlaceLocationModal: React.FC<InsertModalProps> = ({
         {showDetail && (
           <div className="flex flex-col w-full gap-2 mb-7">
             <div className="flex items-center gap-2">
-              <p className="text-lg">{place.title}</p>
+              <p className="text-lg">{place.name}</p>
               <p className="text-sm text-gray-500">{place.category}</p>
             </div>
             <address>{place.address}</address>
@@ -55,6 +67,14 @@ const PlaceLocationModal: React.FC<InsertModalProps> = ({
               <p>리뷰 999+</p>
             </div>
             <div>메뉴...</div>
+            <div className="flex justify-end">
+              <button
+                className="px-6 py-2 rounded-xl bg-customYellow"
+                onClick={handleAddPlace}
+              >
+                추가
+              </button>
+            </div>
           </div>
         )}
       </article>
