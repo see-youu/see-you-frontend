@@ -18,10 +18,12 @@ interface Place {
 interface SearchPlaceListProps {
   searchPlaces: Place[] | null;
   handleFindLocation: () => void;
+  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
 }
 const SearchPlaceList: React.FC<SearchPlaceListProps> = ({
   searchPlaces,
   handleFindLocation,
+  setSearchKeyword,
 }) => {
   const { setPlace } = usePlace();
   return (
@@ -48,9 +50,10 @@ const SearchPlaceList: React.FC<SearchPlaceListProps> = ({
                   const formattedNumberLng = Number(
                     integerPartLng + "." + decimalPartLng
                   );
+                  setSearchKeyword(cleanedTitle);
                   handleFindLocation();
                   setPlace({
-                    title: item.title,
+                    title: cleanedTitle,
                     category: lastCategory,
                     address: item.address,
                     longitude: formattedNumberLng,

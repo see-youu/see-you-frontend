@@ -74,6 +74,7 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
           <SearchPlaceList
             searchPlaces={data}
             handleFindLocation={handleFindLocation}
+            setSearchKeyword={setSearchKeyword}
           />
         );
       // 장소 검색창 누르면 최근 검색 목록 보여줌
