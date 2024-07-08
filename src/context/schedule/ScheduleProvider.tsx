@@ -33,6 +33,7 @@ export const ScheduleProvider: React.FunctionComponent<
     time: "미정",
     startTime: null,
     locations: [],
+    members: [],
   });
 
   return (

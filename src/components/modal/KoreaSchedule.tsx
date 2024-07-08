@@ -6,8 +6,13 @@ import DateRangeSelect from "@/components/select/DateRangeSelect";
 import { useState } from "react";
 import { useSchedule } from "@/context/schedule/ScheduleProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faPlus,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { PlaceType } from "@/types/scheduleType";
+import InsertScheduleMemberModal from "./InsertScheduleMemberModal";
 
 export const KoreaSchedule = () => {
   const { scheduleInput, setScheduleInput } = useSchedule();
@@ -15,8 +20,14 @@ export const KoreaSchedule = () => {
   const dateButton = [{ name: "미정" }, { name: "날짜 선택" }];
   const timeButton = [{ name: "미정" }, { name: "시간 선택" }];
   const [mapOpen, setMapOpen] = useState(false);
-  const handleModalClose = () => {
+  const [memberModalOpen, setMemberModalOpen] = useState(false);
+
+  const handleMapModalClose = () => {
     setMapOpen(false);
+  };
+
+  const handleMemberModalClose = () => {
+    setMemberModalOpen(false);
   };
 
   const handleDeletePlace = (indexToRemove: number) => {
@@ -132,7 +143,25 @@ export const KoreaSchedule = () => {
           ))}
         </div>
       </section>
-      {mapOpen && <InsertLocationModal handleClose={handleModalClose} />}
+      <section className="flex flex-col w-full gap-2">
+        <div className="flex items-center gap-4">
+          <p>약속 멤버</p>
+          <p className="text-sm">0/30</p>
+        </div>
+        <div className="flex justify-between w-full gap-2">
+          <button
+            className={`w-16 h-16 text-2xl border border-dotted border-black rounded-full cursor-pointer
+                `}
+            onClick={() => setMemberModalOpen(true)}
+          >
+            <FontAwesomeIcon icon={faPlus} className="text-gray-500" />
+          </button>
+        </div>
+      </section>
+      {mapOpen && <InsertLocationModal handleClose={handleMapModalClose} />}
+      {memberModalOpen && (
+        <InsertScheduleMemberModal handleClose={handleMemberModalClose} />
+      )}
     </main>
   );
 };

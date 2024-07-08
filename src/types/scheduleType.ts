@@ -7,6 +7,7 @@ export interface ScheduleProps {
   time: string | null;
   startTime: Date | null;
   locations: PlaceType[] | [];
+  members: MemberType | [];
 }
 
 export interface KeywordType {
@@ -26,4 +27,10 @@ export interface PlaceType {
   address: string;
   longitude: number;
   latitude: number;
+}
+
+export interface MemberType {
+  name: string;
+  id: string;
+  image: string;
 }

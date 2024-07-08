@@ -39,7 +39,7 @@ const PlaceLocationModal: React.FC<InsertModalProps> = ({
       <div
         className="relative top-0 left-0 flex flex-col items-center gap-2 bg-white"
         onClick={(e) => e.stopPropagation()}
-        style={{ height: `calc(100vh - var(--menubar-height))` }}
+        style={{ height: `calc(100vh - var(bar-height))` }}
       >
         <NaverMap lat={place.latitude} lng={place.longitude} />
       </div>
