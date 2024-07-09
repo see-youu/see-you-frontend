@@ -142,14 +142,14 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
               }}
               className={`${
                 searchModalOpen
-                  ? "relative"
+                  ? "relative w-4/5"
                   : `absolute -translate-x-1/2 left-1/2`
-              } z-10 mt-4`}
+              } z-10 mt-4 w-4/5`}
               onClick={() => setSearchModalOpen(true)}
             >
               <input
                 type="text"
-                className="h-12 pl-2 pr-12 border border-black border-solid rounded-md w-96"
+                className="w-full h-12 pl-2 pr-12 border border-black border-solid rounded-md"
                 value={searchKeyword}
                 placeholder="장소, 키워드 검색"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

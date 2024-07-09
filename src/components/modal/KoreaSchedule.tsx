@@ -11,8 +11,8 @@ import {
   faPlus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { PlaceType } from "@/types/scheduleType";
 import InsertScheduleMemberModal from "./InsertScheduleMemberModal";
+import Image from "next/image";
 
 export const KoreaSchedule = () => {
   const { scheduleInput, setScheduleInput } = useSchedule();
@@ -40,7 +40,7 @@ export const KoreaSchedule = () => {
   };
   return (
     <main
-      className="flex flex-col items-center gap-4 px-8 py-4"
+      className="flex flex-col items-center gap-6 px-8 py-4"
       style={{ height: `calc(100vh - var(--menubar-height))` }}
     >
       <p className="text-sm text-center text-customBrown">
@@ -118,7 +118,7 @@ export const KoreaSchedule = () => {
             장소 추가
           </button>
         </div>
-        <div className="flex flex-col gap-3 my-3">
+        <div className="flex flex-col gap-3">
           {scheduleInput.locations.map((location, idx) => (
             <div key={idx} className="flex items-center">
               <p className="flex items-center justify-center w-6 h-6 text-xs border border-black border-solid rounded-full bg-customYellow">
@@ -146,9 +146,21 @@ export const KoreaSchedule = () => {
       <section className="flex flex-col w-full gap-2">
         <div className="flex items-center gap-4">
           <p>약속 멤버</p>
-          <p className="text-sm">0/30</p>
+          <p className="text-sm">{scheduleInput.members.length}/30</p>
         </div>
-        <div className="flex justify-between w-full gap-2">
+        <div className="flex w-full gap-3">
+          {scheduleInput.members.map((member) => (
+            <div className="flex flex-col items-center gap-1">
+              <Image
+                src={member.image}
+                width={4 * 16} // 3rem
+                height={4 * 16} // 3rem
+                alt="profile"
+                className="block object-cover w-16 h-16 border border-gray-400 border-solid rounded-full"
+              />
+              <p className="text-sm">{member.name}</p>
+            </div>
+          ))}
           <button
             className={`w-16 h-16 text-2xl border border-dotted border-black rounded-full cursor-pointer
                 `}
