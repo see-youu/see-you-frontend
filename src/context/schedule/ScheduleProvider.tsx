@@ -34,6 +34,7 @@ export const ScheduleProvider: React.FunctionComponent<
     startTime: null,
     locations: [],
     members: [],
+    notes: [],
   });
 
   return (

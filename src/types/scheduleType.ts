@@ -8,6 +8,7 @@ export interface ScheduleProps {
   startTime: Date | null;
   locations: PlaceType[] | [];
   members: MemberType[] | [];
+  notes: Notetype[] | [];
 }
 
 export interface KeywordType {
@@ -33,4 +34,8 @@ export interface MemberType {
   name: string;
   id: string;
   image: string;
+}
+
+export interface Notetype {
+  content: string;
 }

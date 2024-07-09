@@ -21,6 +21,7 @@ export const KoreaSchedule = () => {
   const timeButton = [{ name: "미정" }, { name: "시간 선택" }];
   const [mapOpen, setMapOpen] = useState(false);
   const [memberModalOpen, setMemberModalOpen] = useState(false);
+  const [note, setNote] = useState<string>("");
 
   const handleMapModalClose = () => {
     setMapOpen(false);
@@ -38,10 +39,29 @@ export const KoreaSchedule = () => {
       ),
     }));
   };
+
+  const handleInsertNote = () => {
+    if (!!note && note.length > 0) {
+      setScheduleInput((current) => ({
+        ...current,
+        notes: [...current.notes, { content: note }],
+      }));
+      setNote("");
+    }
+  };
+
+  const handleDeleteNote = (indexToRemove: number) => {
+    setScheduleInput((current) => ({
+      ...current,
+      notes: current.notes.filter((_, index) => index !== indexToRemove),
+    }));
+  };
   return (
     <main
-      className="flex flex-col items-center gap-6 px-8 py-4"
-      style={{ height: `calc(100vh - var(--menubar-height))` }}
+      className="flex flex-col items-center gap-6 px-8 py-4 mb-24"
+      style={{
+        minHeight: `calc(100vh - var(--menubar-height) - 6rem)`,
+      }}
     >
       <p className="text-sm text-center text-customBrown">
         나중에 수정할 수 있어요!
@@ -169,6 +189,47 @@ export const KoreaSchedule = () => {
             <FontAwesomeIcon icon={faPlus} className="text-gray-500" />
           </button>
         </div>
+      </section>
+      <section className="flex flex-col w-full gap-2">
+        <p>메모</p>
+        <form
+          className="flex w-full gap-4 "
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleInsertNote();
+          }}
+        >
+          <div className="relative w-4/5">
+            <input
+              type="text"
+              className="w-full h-full pl-2 text-sm border-b border-solid border-b-gray-500 pr-11"
+              placeholder="메모를 작성하세요."
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              maxLength={30}
+            />
+            <p className="absolute text-xs text-gray-400 right-1 bottom-2">
+              {note.length}/30
+            </p>
+          </div>
+          <button className="w-1/5 py-1 text-sm border border-solid cursor-pointer bg-customYellow rounded-xl border-customBrown">
+            추가
+          </button>
+        </form>
+        <ul className="flex flex-col gap-1 text-sm">
+          {scheduleInput.notes.map((note, idx) => (
+            <li className="flex items-center gap-4">
+              <p className="px-4 py-1 border border-gray-500 border-solid rounded-xl">
+                {note.content}
+              </p>
+              <FontAwesomeIcon
+                icon={faXmark}
+                className="cursor-pointer "
+                onClick={() => handleDeleteNote(idx)}
+              />
+            </li>
+          ))}
+        </ul>
       </section>
       {mapOpen && <InsertLocationModal handleClose={handleMapModalClose} />}
       {memberModalOpen && (
