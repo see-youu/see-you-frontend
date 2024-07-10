@@ -212,7 +212,7 @@ export const KoreaSchedule = () => {
               {note.length}/30
             </p>
           </div>
-          <button className="w-1/5 py-1 text-sm border border-solid cursor-pointer bg-customYellow rounded-xl border-customBrown">
+          <button className="w-1/5 py-1.5 text-sm border border-solid cursor-pointer bg-customYellow rounded-xl border-customBrown">
             추가
           </button>
         </form>
