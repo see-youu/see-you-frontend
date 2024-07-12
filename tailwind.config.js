@@ -25,6 +25,10 @@ module.exports = {
         withoutMenubarHeight: `calc(100vh-3.5rem)`,
         "px-1": "1px",
       },
+      top: {
+        menubar: "3.5rem",
+        withoutMenubarHeight: `calc(100vh-3.5rem)`,
+      },
       zIndex: {
         100: "100",
         200: "200",
@@ -37,6 +41,20 @@ module.exports = {
       },
       boxShadow: {
         top: "0 -6px 10px -5px rgb(0 0 0 / 0.3)",
+      },
+      keyframes: {
+        fadeInUp: {
+          from: { opacity: "0", transform: "translateY(-20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeOutDown: {
+          from: { opacity: "1", transform: "translateY(0)" },
+          to: { opacity: "0", transform: "translateY(20px)" },
+        },
+      },
+      animation: {
+        fadeInUp: "fadeInUp 0.5s ease-out",
+        fadeOutDown: "fadeOutDown 0.5s ease-out",
       },
     },
   },
