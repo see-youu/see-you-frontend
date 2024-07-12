@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import InsertLocationModal from "@/components/modal/InsertLocationModal";
+import InsertLocationModal from "@/components/modal/schedule/InsertLocationModal";
 import TimeSelect from "@/components/select/TimeSelect";
 import DateRangeSelect from "@/components/select/DateRangeSelect";
 import { useState } from "react";
@@ -13,15 +13,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import InsertScheduleMemberModal from "./InsertScheduleMemberModal";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export const KoreaSchedule = () => {
   const { scheduleInput, setScheduleInput } = useSchedule();
+  const router = useRouter();
 
   const dateButton = [{ name: "미정" }, { name: "날짜 선택" }];
   const timeButton = [{ name: "미정" }, { name: "시간 선택" }];
   const [mapOpen, setMapOpen] = useState(false);
   const [memberModalOpen, setMemberModalOpen] = useState(false);
   const [note, setNote] = useState<string>("");
+
+  const handleGoBack = () => {
+    router.push("/schedule");
+  };
+
+  const handleCompleteSchedule = () => {
+    if (scheduleInput.name === "") {
+      console.log("no");
+    }
+    console.log(scheduleInput);
+  };
 
   const handleMapModalClose = () => {
     setMapOpen(false);
@@ -170,7 +183,7 @@ export const KoreaSchedule = () => {
         </div>
         <div className="flex w-full gap-3">
           {scheduleInput.members.map((member) => (
-            <div className="flex flex-col items-center gap-1">
+            <div className="flex flex-col items-center gap-1" key={member.id}>
               <Image
                 src={member.image}
                 width={4 * 16} // 3rem
@@ -218,7 +231,7 @@ export const KoreaSchedule = () => {
         </form>
         <ul className="flex flex-col gap-1 text-sm">
           {scheduleInput.notes.map((note, idx) => (
-            <li className="flex items-center gap-4">
+            <li className="flex items-center gap-4" key={idx}>
               <p className="px-4 py-1 border border-gray-500 border-solid rounded-xl">
                 {note.content}
               </p>
@@ -235,6 +248,20 @@ export const KoreaSchedule = () => {
       {memberModalOpen && (
         <InsertScheduleMemberModal handleClose={handleMemberModalClose} />
       )}
+      <div className="fixed bottom-0 left-0 flex items-center w-full h-20 gap-4 px-8 bg-white border-t border-gray-400 border-solid modal-width">
+        <div
+          className="w-1/3 py-1 text-center border border-gray-500 border-solid cursor-pointer rounded-xl"
+          onClick={handleGoBack}
+        >
+          취소
+        </div>
+        <div
+          className="w-2/3 py-1 text-center border border-gray-500 border-solid cursor-pointer rounded-xl bg-customYellow"
+          onClick={handleCompleteSchedule}
+        >
+          약속 만들기
+        </div>
+      </div>
     </main>
   );
 };

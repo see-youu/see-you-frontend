@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ModalWrapper from "./ModalWrapper";
-import NaverMap from "../map/NaverMap";
-import MenuHeader from "../menubar/MenuHeader";
+import ModalWrapper from "../ModalWrapper";
+import NaverMap from "@/components/map/NaverMap";
+import MenuHeader from "@/components/menubar/MenuHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import RecentSearchList from "../list/RecentSearchList";
-import SearchPlaceList from "../list/SearchPlaceList";
+import RecentSearchList from "@/components/list/RecentSearchList";
+import SearchPlaceList from "@/components/list/SearchPlaceList";
 import { NaverLocationType } from "@/types/naverMapTypes";
-import PlaceLocationModal from "./PlaceLocationModal";
+import PlaceLocationModal from "@/components/modal/schedule/PlaceLocationModal";
 import { fetchSearchKeywordData } from "@/api/schedule/fetchSearchKeywordData";
 import { KeywordType } from "@/types/scheduleType";
 

@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import ModalWrapper from "./ModalWrapper";
-import NaverMap from "../map/NaverMap";
-import MenuHeader from "../menubar/MenuHeader";
+import ModalWrapper from "../ModalWrapper";
+import NaverMap from "../../map/NaverMap";
+import MenuHeader from "../../menubar/MenuHeader";
 import { usePlace } from "@/context/schedule/PlaceProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";

@@ -1,16 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import ModalWrapper from "./ModalWrapper";
-import MenuHeader from "../menubar/MenuHeader";
+import ModalWrapper from "../ModalWrapper";
+import MenuHeader from "@/components/menubar/MenuHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleCheck,
   faSearch,
-  faXmark,
   faXmarkCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import LoadingSpinner from "../spinner/LoadingSpinner";
 import { MemberType } from "@/types/scheduleType";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { useSchedule } from "@/context/schedule/ScheduleProvider";
@@ -122,7 +120,6 @@ const InsertScheduleMemberModal: React.FC<InsertMemberModalProps> = ({
     const isMemberSelected = insertMembers.some(
       (m: MemberType) => m.id === memberId
     );
-    console.log(isMemberSelected, isMemberSelected === false);
     if (isMemberSelected) return true;
     return false;
   };
@@ -163,7 +160,10 @@ const InsertScheduleMemberModal: React.FC<InsertMemberModalProps> = ({
         <section className="w-full px-10 mb-2 ">
           <div className="flex gap-3 pt-3 overflow-x-auto">
             {insertMembers.map((member) => (
-              <div className="relative flex items-center justify-between min-w-12 shr">
+              <div
+                className="relative flex items-center justify-between min-w-12 shr"
+                key={member.id}
+              >
                 <div className="flex flex-col items-center gap-1">
                   <Image
                     src={member.image}
@@ -186,7 +186,7 @@ const InsertScheduleMemberModal: React.FC<InsertMemberModalProps> = ({
         <section className="w-full px-10 my-1">
           <p>즐겨찾기</p>
           {starMembers.map((member) => (
-            <div className="flex items-center justify-between my-3">
+            <div className="flex items-center justify-between my-3" key={member.id}>
               <div className="flex items-center gap-5">
                 <Image
                   src={member.image}
@@ -208,7 +208,10 @@ const InsertScheduleMemberModal: React.FC<InsertMemberModalProps> = ({
         <section className="w-full px-10 my-1">
           <p>친구 목록</p>
           {members.map((member) => (
-            <div className="flex items-center justify-between my-3">
+            <div
+              className="flex items-center justify-between my-3"
+              key={member.id}
+            >
               <div className="flex items-center gap-5">
                 <Image
                   src={member.image}
