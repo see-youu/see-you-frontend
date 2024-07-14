@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import InsertLocationModal from "@/components/modal/schedule/InsertLocationModal";
 import TimeSelect from "@/components/select/TimeSelect";
 import DateRangeSelect from "@/components/select/DateRangeSelect";
@@ -14,6 +14,10 @@ import {
 import InsertScheduleMemberModal from "./InsertScheduleMemberModal";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import ErrorMessageBoxModal from "../ErrorMessageBoxModal";
+import { formatDate, formatTime } from "@/utils/parseFormat";
+import { getMemberId } from "@/utils/jwtToken";
+import { createSchedule } from "@/api/schedule/createSchedule";
 
 export const KoreaSchedule = () => {
   const { scheduleInput, setScheduleInput } = useSchedule();
@@ -23,7 +27,10 @@ export const KoreaSchedule = () => {
   const timeButton = [{ name: "미정" }, { name: "시간 선택" }];
   const [mapOpen, setMapOpen] = useState(false);
   const [memberModalOpen, setMemberModalOpen] = useState(false);
+  const [messageBoxOpen, setMessageBoxOpen] = useState(false);
+  const [messageVisible, setMessageVisible] = useState(false);
   const [note, setNote] = useState<string>("");
+  const [message, setMessage] = useState("");
 
   const handleGoBack = () => {
     router.push("/schedule");
@@ -31,9 +38,30 @@ export const KoreaSchedule = () => {
 
   const handleCompleteSchedule = () => {
     if (scheduleInput.name === "") {
-      console.log("no");
+      setMessage("약속 이름을 작성해 주세요.");
+      setMessageBoxOpen(true);
+    } else {
+      const formatMembers = scheduleInput.members.map((member) => member.id);
+      formatMembers.push(getMemberId());
+      const data = {
+        title: scheduleInput.name,
+        startDate: !!scheduleInput.startDate
+          ? formatDate(scheduleInput.startDate)
+          : "",
+        endDate: !!scheduleInput.endDate
+          ? formatDate(scheduleInput.endDate)
+          : "",
+        startTime: !!scheduleInput.startTime
+          ? formatTime(scheduleInput.startTime)
+          : "",
+        endTime: "00:00:00",
+        locations: scheduleInput.locations,
+        notes: scheduleInput.notes,
+        memberIds: formatMembers,
+      };
+      const responseData = createSchedule(data);
+      console.log("response data : ", responseData);
     }
-    console.log(scheduleInput);
   };
 
   const handleMapModalClose = () => {
@@ -57,7 +85,7 @@ export const KoreaSchedule = () => {
     if (!!note && note.length > 0) {
       setScheduleInput((current) => ({
         ...current,
-        notes: [...current.notes, { content: note }],
+        notes: [...current.notes, { content: note, memberId: getMemberId() }],
       }));
       setNote("");
     }
@@ -69,6 +97,22 @@ export const KoreaSchedule = () => {
       notes: current.notes.filter((_, index) => index !== indexToRemove),
     }));
   };
+
+  useEffect(() => {
+    let timerId: number;
+
+    if (messageBoxOpen) {
+      setMessageVisible(true);
+      timerId = window.setTimeout(() => {
+        setMessageBoxOpen(false);
+        setMessageVisible(false);
+      }, 3000);
+    }
+
+    // 컴포넌트 언마운트 또는 messageBoxOpen 상태가 변경될 때 타이머 정리
+    return () => clearTimeout(timerId);
+  }, [messageBoxOpen]);
+
   return (
     <main
       className="flex flex-col items-center gap-6 px-8 py-4 mb-24"
@@ -76,6 +120,9 @@ export const KoreaSchedule = () => {
         minHeight: `calc(100vh - var(--menubar-height) - 6rem)`,
       }}
     >
+      {messageBoxOpen && (
+        <ErrorMessageBoxModal message={message} visible={messageVisible} />
+      )}
       <p className="text-sm text-center text-customBrown">
         나중에 수정할 수 있어요!
       </p>

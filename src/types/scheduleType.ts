@@ -32,10 +32,11 @@ export interface PlaceType {
 
 export interface MemberType {
   name: string;
-  id: string;
+  id: number;
   image: string;
 }
 
 export interface Notetype {
   content: string;
+  memberId: number;
 }
