@@ -11,6 +11,7 @@ import { NaverLocationType } from "@/types/naverMapTypes";
 import PlaceLocationModal from "@/components/modal/schedule/PlaceLocationModal";
 import { fetchSearchKeywordData } from "@/api/schedule/fetchSearchKeywordData";
 import { KeywordType } from "@/types/scheduleType";
+import { saveSearch } from "@/api/schedule/saveSearch";
 
 interface InsertModalProps {
   handleClose: () => void;
@@ -26,33 +27,12 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
     lat: 37.3595704,
     lng: 127.105399,
   });
-  const [recentKeyword, setRecentKeyword] = useState<KeywordType[]>([
-    {
-      id: 0,
-      keyword: "소문난성수감자탕",
-      date: "06.13",
-      type: "place",
-      category: "감자탕",
-      address: "서울특별시 성동구 연무장길 45",
-      longitude: 127.0543869,
-      latitude: 37.5428369,
-    },
-    {
-      id: 1,
-      keyword: "감자빵",
-      date: "06.14",
-      type: "word",
-    },
-    {
-      id: 2,
-      keyword: "고기",
-      date: "06.14",
-      type: "word",
-    },
-  ]);
+  const [recentKeyword, setRecentKeyword] = useState<KeywordType[]>([]);
 
   const handleSearch = async (searchKeyword: string) => {
     const res = await fetchSearchKeywordData(searchKeyword);
+    const searchData = await saveSearch(searchKeyword);
+    if (searchData) setRecentKeyword(searchData.histories);
     setData(res.data.items);
     setSearchListModalOpen(true);
   };
@@ -131,7 +111,9 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
           <MenuHeader title="장소 추가하기" handleBack={handleBack} />
           <div
             className="relative flex flex-col items-center gap-2 bg-white"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
             style={{ height: `calc(100vh - var(--menubar-height))` }}
           >
             <form

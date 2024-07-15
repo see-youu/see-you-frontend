@@ -12,7 +12,7 @@ export interface ScheduleProps {
 }
 
 export interface KeywordType {
-  id: number;
+  historyId: number;
   keyword: string;
   date: string;
   type: string;
