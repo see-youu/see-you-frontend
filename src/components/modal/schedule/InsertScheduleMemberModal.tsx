@@ -142,7 +142,6 @@ const InsertScheduleMemberModal: React.FC<InsertMemberModalProps> = ({
             handleSearch(searchMember);
           }}
           className={`my-4 relative w-4/5`}
-          onClick={() => {}}
         >
           <input
             type="text"

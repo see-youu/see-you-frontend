@@ -24,7 +24,7 @@ const Menubar = () => {
       >
         <FontAwesomeIcon icon={faPlus} className="cursor-pointer" />
       </Link>
-      <Link href="/home" passHref>
+      <Link href="/list" passHref>
         <FontAwesomeIcon icon={faMessage} className="cursor-pointer" />
       </Link>
       <Link href="/home" passHref>
