@@ -8,7 +8,7 @@ interface SearchResponse {
 
 export const fetchRecentSearch = async () => {
   try {
-    const response = await api.get<SearchResponse>("/history/", {
+    const response = await api.get<SearchResponse>("/history", {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },
