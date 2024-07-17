@@ -1,9 +1,15 @@
 "use client";
+import { fetchScheduleList } from "@/api/schedule/fetchScheduleList";
 import SelectOptionModal from "@/components/modal/SelectOptionModal";
-import { faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-
+import emptyImg from "../../../public/emptyImg.png";
+interface scheduleType {
+  appointmentId: number;
+  title: string;
+}
 export default function () {
   const sortOptions = ["최신순", "작성일순", "옵션1", "옵션2"];
   const showOptions = ["전체", "공개", "비공개"];
@@ -11,17 +17,19 @@ export default function () {
   const [selectedSort, setSelectedSort] = useState(sortOptions[0]); // 초기 상태 설정
   const [selectedOption, setSelectedOption] = useState(showOptions[0]); // 초기 상태 설정
   const [optionModalOpen, setOptionModalOpen] = useState(false);
-
+  const [scheduleList, setScheduleList] = useState<scheduleType[]>([]);
   const handleSearch = () => {
     console.log(searchTitle);
   };
 
-  const handleSelectSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedSort(e.target.value); // 선택된 값으로 상태 업데이트
-    console.log("Selected value:", e.target.value); // 선택된 값을 콘솔에 출력
-  };
+  useEffect(() => {
+    const scheduleList = async () => {
+      const data = await fetchScheduleList();
+      setScheduleList(data);
+    };
+    scheduleList();
+  }, []);
 
-  useEffect(() => {}, []);
   return (
     <>
       <div
@@ -73,10 +81,33 @@ export default function () {
             <p>{selectedSort}</p>
           </div>
         </nav>
-        <main className="flex flex-col">
-          <div>
-            <p></p>
-          </div>
+        <main className="flex flex-col w-full px-10 py-2">
+          {!!scheduleList &&
+            scheduleList.map((schedule, idx) => (
+              <div
+                className="flex w-full gap-4 py-5 border-b border-gray-200 border-solid cursor-pointer"
+                key={idx}
+              >
+                <Image
+                  src={emptyImg}
+                  width={3 * 16} // 3rem
+                  height={3 * 16} // 3rem
+                  alt="profile"
+                  className="self-center block object-cover w-12 h-12 border border-gray-400 border-solid rounded-full"
+                />
+                <div className="flex flex-col flex-1 text-sm">
+                  <p className="text-base font-semibold">{schedule.title}</p>
+                  <p>2024.07.17</p>
+                  <p>멤버 2명</p>
+                </div>
+                <div>
+                  <FontAwesomeIcon
+                    icon={faLock}
+                    className="pt-2 text-gray-400"
+                  />
+                </div>
+              </div>
+            ))}
         </main>
       </div>
       {optionModalOpen && (
