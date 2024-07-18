@@ -47,3 +47,18 @@ export const saveSearcLocation = async (location: PlaceType) => {
     console.error("Error saving search:", error);
   }
 };
+
+export const deleteSearch = async (id: number) => {
+  try {
+    const res = await api.delete("/history", {
+      data: {
+        historyId: id,
+      },
+      headers: {
+        Authorization: `Bearer ${getCookie("jwtToken")}`,
+      },
+    });
+  } catch (error: any) {
+    console.error("Error delete search:", error);
+  }
+};

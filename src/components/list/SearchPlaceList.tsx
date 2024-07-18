@@ -1,6 +1,5 @@
-import { saveSearcLocation } from "@/api/schedule/saveSearch";
+import { saveSearcLocation } from "@/api/schedule/handleSearch";
 import { usePlace } from "@/context/schedule/PlaceProvider";
-import { PlaceType } from "@/types/scheduleType";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";

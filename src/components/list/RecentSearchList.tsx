@@ -1,8 +1,9 @@
 "use client";
 import {
+  deleteSearch,
   fetchRecentSearch,
   saveSearcLocation,
-} from "@/api/schedule/saveSearch";
+} from "@/api/schedule/handleSearch";
 import { usePlace } from "@/context/schedule/PlaceProvider";
 import { KeywordType } from "@/types/scheduleType";
 import {
@@ -30,10 +31,11 @@ const RecentSearchList: React.FC<RecentSearchListProps> = ({
   const { setPlace } = usePlace();
   // const reversedKeywords = [...recentKeyword].reverse();
 
-  const deleteSearchItem = (id: number) => {
+  const deleteSearchItem = async (id: number) => {
     setRecentKeyword(
       recentKeyword.filter((current) => current.historyId !== id)
     );
+    await deleteSearch(id);
   };
 
   const onClickKeyword = async (item: KeywordType) => {

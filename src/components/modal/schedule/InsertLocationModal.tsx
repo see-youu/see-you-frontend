@@ -11,7 +11,7 @@ import { NaverLocationType } from "@/types/naverMapTypes";
 import PlaceLocationModal from "@/components/modal/schedule/PlaceLocationModal";
 import { fetchSearchKeywordData } from "@/api/schedule/fetchSearchKeywordData";
 import { KeywordType } from "@/types/scheduleType";
-import { saveSearch } from "@/api/schedule/saveSearch";
+import { saveSearch } from "@/api/schedule/handleSearch";
 
 interface InsertModalProps {
   handleClose: () => void;
@@ -31,8 +31,8 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
 
   const handleSearch = async (searchKeyword: string) => {
     const res = await fetchSearchKeywordData(searchKeyword);
-    const searchData = await saveSearch(searchKeyword);
-    if (searchData) setRecentKeyword(searchData.histories);
+    await saveSearch(searchKeyword);
+    // if (searchData) setRecentKeyword(searchData.histories);
     setData(res.data.items);
     setSearchListModalOpen(true);
   };

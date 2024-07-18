@@ -1,5 +1,6 @@
 import {
   faHouse,
+  faList,
   faMagnifyingGlass,
   faMessage,
   faPlus,
@@ -15,7 +16,7 @@ const Menubar = () => {
         <FontAwesomeIcon icon={faHouse} className="cursor-pointer" />
       </Link>
       <Link href="/home" passHref>
-        <FontAwesomeIcon icon={faMagnifyingGlass} className="cursor-pointer" />
+        <FontAwesomeIcon icon={faMessage} className="cursor-pointer" />
       </Link>
       <Link
         href="/schedule"
@@ -25,7 +26,7 @@ const Menubar = () => {
         <FontAwesomeIcon icon={faPlus} className="cursor-pointer" />
       </Link>
       <Link href="/list" passHref>
-        <FontAwesomeIcon icon={faMessage} className="cursor-pointer" />
+        <FontAwesomeIcon icon={faList} className="cursor-pointer" />
       </Link>
       <Link href="/home" passHref>
         <FontAwesomeIcon icon={faUser} className="cursor-pointer" />
