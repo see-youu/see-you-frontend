@@ -5,7 +5,7 @@ interface BottomSheetProps {
   handleCloseModal: () => void;
   children: React.ReactNode;
 }
-const BottomSheetModal: React.FC<BottomSheetProps> = ({
+const BottomSheet: React.FC<BottomSheetProps> = ({
   handleCloseModal,
   children,
 }) => {
@@ -59,23 +59,18 @@ const BottomSheetModal: React.FC<BottomSheetProps> = ({
 
   return (
     <div
-      className="fixed top-0 left-0 z-30 flex items-end h-screen overflow-hidden overflow-x-hidden bg-customOpacityGray modal-width"
-      onClick={handleCloseModal}
+      className="w-full px-8 py-6 bg-white rounded-t-lg"
+      style={{ height: modalHeight !== 0 ? `${modalHeight}px` : "auto" }}
+      ref={modalRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onClick={(e) => e.stopPropagation()}
     >
-      <div
-        className="w-full px-8 py-6 bg-white rounded-t-lg"
-        style={{ height: modalHeight !== 0 ? `${modalHeight}px` : "auto" }}
-        ref={modalRef}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="w-24 h-1 mx-auto mb-3 bg-gray-300 rounded-lg"></div>
-        {children}
-      </div>
+      <div className="w-24 h-1 mx-auto mb-3 bg-gray-300 rounded-lg"></div>
+      {children}
     </div>
   );
 };
 
-export default BottomSheetModal;
+export default BottomSheet;
