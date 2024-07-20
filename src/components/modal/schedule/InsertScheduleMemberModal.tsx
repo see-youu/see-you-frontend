@@ -156,7 +156,7 @@ const InsertScheduleMemberModal: React.FC<InsertMemberModalProps> = ({
             <FontAwesomeIcon icon={faSearch} />
           </button>
         </form>
-        <section className="w-full px-10 mb-2 ">
+        <section className="w-full mb-2 px-screen-x ">
           <div className="flex gap-3 pt-3 overflow-x-auto">
             {insertMembers.map((member) => (
               <div
@@ -182,7 +182,7 @@ const InsertScheduleMemberModal: React.FC<InsertMemberModalProps> = ({
             ))}
           </div>
         </section>
-        <section className="w-full px-10 my-1">
+        <section className="w-full my-1 px-screen-x">
           <p>즐겨찾기</p>
           {starMembers.map((member) => (
             <div
@@ -207,7 +207,7 @@ const InsertScheduleMemberModal: React.FC<InsertMemberModalProps> = ({
             </div>
           ))}
         </section>
-        <section className="w-full px-10 my-1">
+        <section className="w-full px-screen-x my-1">
           <p>친구 목록</p>
           {members.map((member) => (
             <div

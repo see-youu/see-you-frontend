@@ -4,7 +4,7 @@ export default function () {
   return (
     <div
       className="flex flex-col items-center justify-center gap-3"
-      style={{ height: `calc(100vh - var(--menubar-height))` }}
+      style={{ height: `calc(100vh - var(--menuheader-height))` }}
     >
       <Link
         className="w-48 px-5 py-5 text-lg text-center rounded-md cursor-pointer bg-customYellow"

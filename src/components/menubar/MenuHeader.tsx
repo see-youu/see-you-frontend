@@ -16,7 +16,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ title, handleBack }) => {
   return (
     <nav
       className="grid items-center w-full grid-cols-5 px-3 text-xl border-b-2 border-solid font-mediums border-b-gray-300"
-      style={{ minHeight: "var(--menubar-height)" }}
+      style={{ minHeight: "var(--menuheader-height)" }}
     >
       <FontAwesomeIcon
         icon={faChevronLeft}

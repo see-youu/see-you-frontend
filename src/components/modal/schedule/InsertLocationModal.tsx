@@ -114,7 +114,7 @@ const InsertLocationModal: React.FC<InsertModalProps> = ({ handleClose }) => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-            style={{ height: `calc(100vh - var(--menubar-height))` }}
+            style={{ height: `calc(100vh - var(--menuheader-height))` }}
           >
             <form
               action=""

@@ -11,7 +11,10 @@ import Link from "next/link";
 
 const Menubar = () => {
   return (
-    <nav className="fixed bottom-0 flex items-center justify-around w-full px-2 text-xl bg-white border-t border-gray-300 border-solid max-w-px-480">
+    <nav
+      className="fixed bottom-0 flex items-center justify-around px-2 text-xl bg-white border-t border-gray-300 border-solid modal-width"
+      style={{ height: `var(--menubar-height)` }}
+    >
       <Link href="/home" passHref>
         <FontAwesomeIcon icon={faHouse} className="cursor-pointer" />
       </Link>

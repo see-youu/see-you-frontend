@@ -10,5 +10,10 @@ export function useNavigation() {
   const goToPage = (page: string): void => {
     router.push(page);
   };
-  return { goBack, goToPage };
+
+  const goReplacePage = (page: string): void => {
+    router.push(page);
+  };
+
+  return { goBack, goToPage, goReplacePage };
 }

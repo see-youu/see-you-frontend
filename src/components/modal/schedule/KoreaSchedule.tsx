@@ -13,15 +13,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import InsertScheduleMemberModal from "./InsertScheduleMemberModal";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import ErrorMessageBoxModal from "../ErrorMessageBoxModal";
 import { formatDate, formatTime } from "@/utils/parseFormat";
 import { getMemberId } from "@/utils/jwtToken";
 import { createSchedule } from "@/api/schedule/createSchedule";
+import { useNavigation } from "@/utils/navigation";
 
 export const KoreaSchedule = () => {
   const { scheduleInput, setScheduleInput } = useSchedule();
-  const router = useRouter();
 
   const dateButton = [{ name: "미정" }, { name: "날짜 선택" }];
   const timeButton = [{ name: "미정" }, { name: "시간 선택" }];
@@ -31,12 +30,13 @@ export const KoreaSchedule = () => {
   const [messageVisible, setMessageVisible] = useState(false);
   const [note, setNote] = useState<string>("");
   const [message, setMessage] = useState("");
+  const { goBack, goReplacePage } = useNavigation();
 
   const handleGoBack = () => {
-    router.push("/schedule");
+    goBack();
   };
 
-  const handleCompleteSchedule = () => {
+  const handleCompleteSchedule = async () => {
     if (scheduleInput.name === "") {
       setMessage("약속 이름을 작성해 주세요.");
       setMessageBoxOpen(true);
@@ -59,8 +59,8 @@ export const KoreaSchedule = () => {
         notes: scheduleInput.notes,
         memberIds: formatMembers,
       };
-      const responseData = createSchedule(data);
-      console.log("response data : ", responseData);
+      await createSchedule(data);
+      goReplacePage("/list");
     }
   };
 
@@ -117,7 +117,7 @@ export const KoreaSchedule = () => {
     <main
       className="flex flex-col items-center gap-6 px-8 py-4 mb-24"
       style={{
-        minHeight: `calc(100vh - var(--menubar-height) - 6rem)`,
+        minHeight: `calc(100vh - var(--menuheader-height) - 6rem)`,
       }}
     >
       {messageBoxOpen && (

@@ -20,9 +20,7 @@ export const createSchedule = async (scheduleData: ScheduleType) => {
       },
     });
     console.log("Schedule created:", response.data);
-    return response.data;
   } catch (error: any) {
     console.error("Error creating schedule:", error.response);
-    return null;
   }
 };

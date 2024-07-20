@@ -28,3 +28,13 @@ export const formatTime = (dateString: Date) => {
 
   return `${formattedHour}:${formattedMinute}:00`;
 };
+
+export const differenceInDays = (start: Date, end: Date): number => {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  const differenceInMilliseconds = endDate.getTime() - startDate.getTime(); // 두 날짜의 차이를 밀리초 단위로 계산
+  const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24); // 밀리초를 일수로 변환
+
+  return differenceInDays + 1;
+};
