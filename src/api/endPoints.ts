@@ -1,5 +1,10 @@
-export const VALID_CHECK_USERNAME = "/members/valid/username";
-export const VALID_CHECK_NICKNAME = "/members/valid/nickname";
-export const VALID_CHECK_PHONENUMBER = "/members/valid/phone";
-export const SIGNUP_USER = "members/signup";
-export const SIGNIN_USER = "members/signin";
+export const VALID_CHECK_USERNAME = "/member/valid/username";
+export const VALID_CHECK_NICKNAME = "/member/valid/nickname";
+export const VALID_CHECK_PHONENUMBER = "/member/valid/phone";
+export const SIGNUP_USER = "member/signup";
+export const SIGNIN_USER = "member/signin";
+export const SCHEDULE_LIST = "member/appointments";
+export const SCHEDULE = "appointment";
+export const RECENT_SEARCH = "history";
+export const RECENT_SEARCH_KEYWORD = "history/keyword";
+export const RECENT_SEARCH_LOCATION = "history/location";

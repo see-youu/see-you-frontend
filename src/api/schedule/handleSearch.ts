@@ -1,6 +1,11 @@
 import { getCookie } from "@/utils/cookie";
 import { api } from "../api";
 import { KeywordType, PlaceType } from "@/types/scheduleType";
+import {
+  RECENT_SEARCH,
+  RECENT_SEARCH_KEYWORD,
+  RECENT_SEARCH_LOCATION,
+} from "../endPoints";
 
 interface SearchResponse {
   histories: KeywordType[];
@@ -8,7 +13,7 @@ interface SearchResponse {
 
 export const fetchRecentSearch = async () => {
   try {
-    const response = await api.get<SearchResponse>("/history", {
+    const response = await api.get<SearchResponse>(RECENT_SEARCH, {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },
@@ -22,7 +27,7 @@ export const fetchRecentSearch = async () => {
 export const saveSearch = async (keyword: string) => {
   try {
     await api.post(
-      "/history/keyword",
+      RECENT_SEARCH_KEYWORD,
       { keyword: keyword },
       {
         headers: {
@@ -38,7 +43,7 @@ export const saveSearch = async (keyword: string) => {
 
 export const saveSearcLocation = async (location: PlaceType) => {
   try {
-    await api.post("/history/location", location, {
+    await api.post(RECENT_SEARCH_LOCATION, location, {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },
@@ -50,7 +55,7 @@ export const saveSearcLocation = async (location: PlaceType) => {
 
 export const deleteSearch = async (id: number) => {
   try {
-    const res = await api.delete("/history", {
+    await api.delete(RECENT_SEARCH, {
       data: {
         historyId: id,
       },

@@ -1,6 +1,7 @@
 import { Notetype, PlaceType } from "@/types/scheduleType";
 import { api } from "../api";
 import { getCookie } from "@/utils/cookie";
+import { SCHEDULE } from "../endPoints";
 
 interface ScheduleType {
   title: string;
@@ -14,7 +15,7 @@ interface ScheduleType {
 }
 export const createSchedule = async (scheduleData: ScheduleType) => {
   try {
-    const response = await api.post("/appointment", scheduleData, {
+    const response = await api.post(SCHEDULE, scheduleData, {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },

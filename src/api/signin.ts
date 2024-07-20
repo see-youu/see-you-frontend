@@ -8,7 +8,7 @@ type SigninType = {
 
 export const signinUser = async (user: SigninType) => {
   try {
-    const response = await api.post(`${SIGNIN_USER}`, user);
+    const response = await api.post(SIGNIN_USER, user);
     return response;
   } catch (err) {
     console.error(err);

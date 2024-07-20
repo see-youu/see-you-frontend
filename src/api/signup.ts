@@ -4,7 +4,7 @@ import { SIGNUP_USER } from "./endPoints";
 
 export const signupUser = async (user: UserType) => {
   try {
-    const response = await api.post(`${SIGNUP_USER}`, user);
+    const response = await api.post(SIGNUP_USER, user);
     if (response?.status === 201) {
       window.alert("회원가입이 완료되었습니다.");
       return true;
