@@ -1,15 +1,14 @@
 "use client";
 import MenuHeader from "@/components/menubar/MenuHeader";
 import { differenceInDays, formatDate } from "@/utils/parseFormat";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import emptyImg from "@/../public/emptyImg.png";
-import { useNavigation } from "@/utils/navigation";
 import { fetchScheduleDetail } from "@/api/schedule/fetchScheduleList";
-import { MemberType, Notetype, PlaceType } from "@/types/scheduleType";
 import LoadingSpinner from "@/components/spinner/LoadingSpinner";
+import { MemberType, Notetype, PlaceType } from "@/types/scheduleType";
 
 interface Schedule {
   title: string;
@@ -26,7 +25,6 @@ interface Schedule {
 }
 
 const page = (props: any) => {
-  const { goToPage } = useNavigation();
   const [schedule, setSchedule] = useState<Schedule>();
   const [showDayPlan, setShowDayPlan] = useState(0);
 
@@ -41,26 +39,24 @@ const page = (props: any) => {
   if (!schedule) {
     return <LoadingSpinner />;
   }
+
   return (
     <>
       <MenuHeader title={schedule.title} />
       <header className="flex items-center justify-between w-full my-4 px-screen-x">
         <div className="flex flex-col">
           <p>
-            {!!schedule.private ? "공개" : "비공개"} / {schedule.members.length}
+            {schedule.private ? "공개" : "비공개"} / {schedule.members.length}
           </p>
           <p className="text-gray-500">
             {!!schedule.startDate
               ? `${formatDate(schedule.startDate)} ~ `
               : "미정"}
-            {!!schedule.endDate ? formatDate(schedule.endDate) : ""}
+            {!!schedule.endDate ? formatDate(schedule.endDate) : ""}{" "}
           </p>
         </div>
-        <button
-          className=""
-          onClick={() => goToPage(`/list/${props.params.id}/edit`)}
-        >
-          편집
+        <button className="" onClick={() => {}}>
+          저장
         </button>
       </header>
       <main className="flex flex-col gap-8 px-screen-x">
@@ -90,15 +86,22 @@ const page = (props: any) => {
               1일차
             </li>
           )}
+          <li className="flex-none px-8 py-3 border border-dashed cursor-pointer rounded-2xl border-customOpacityGray">
+            <FontAwesomeIcon icon={faPlus} />
+          </li>
         </ul>
         <section className="flex flex-col w-full gap-2">
           <p>약속 장소</p>
+          <div className="flex justify-between w-full gap-2">
+            <button
+              className={`w-1/3 px-1 py-1.5 text-sm border border-solid border-customBrown rounded-xl cursor-pointer
+                bg-customYellow`}
+              //   onClick={() => setMapOpen(true)}
+            >
+              장소 추가
+            </button>
+          </div>
           <div className="flex flex-col gap-3">
-            {schedule.locations.length === 0 && (
-              <div className="text-sm text-gray-500">
-                추가된 장소가 없습니다.
-              </div>
-            )}
             {schedule.locations.map((location, idx) => (
               <div key={idx} className="flex items-center">
                 <p className="flex items-center justify-center w-6 h-6 text-xs border border-black border-solid rounded-full bg-customYellow">
@@ -124,11 +127,6 @@ const page = (props: any) => {
             <p className="text-sm">{schedule.members.length}/30</p>
           </div>
           <div className="flex w-full gap-3">
-            {schedule.members.length === 0 && (
-              <div className="text-sm text-gray-500">
-                추가된 멤버가 없습니다.
-              </div>
-            )}
             {schedule.members.map((member) => (
               <div className="flex flex-col items-center gap-1" key={member.id}>
                 <Image
@@ -146,11 +144,6 @@ const page = (props: any) => {
         <section className="flex flex-col w-full gap-2">
           <p>메모</p>
           <ul className="flex flex-col gap-1 text-sm">
-            {schedule.notes.length === 0 && (
-              <div className="text-sm text-gray-500">
-                추가된 메모가 없습니다.
-              </div>
-            )}
             {schedule.notes.map((note, idx) => (
               <li className="flex items-center gap-4" key={idx}>
                 <p className="px-4 py-1 border border-gray-500 border-solid rounded-xl">
