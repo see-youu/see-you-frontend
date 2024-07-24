@@ -1,7 +1,3 @@
-"use client";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 interface MenuHeaderProps {
   title: string;
 }

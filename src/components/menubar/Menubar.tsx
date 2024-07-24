@@ -1,13 +1,13 @@
 import {
   faHouse,
   faList,
-  faMagnifyingGlass,
-  faMessage,
   faPlus,
-  faUser,
+  faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import Link from "next/link";
+import emptyImg from "@/../public/emptyImg.png";
 
 const Menubar = () => {
   return (
@@ -18,8 +18,8 @@ const Menubar = () => {
       <Link href="/home" passHref>
         <FontAwesomeIcon icon={faHouse} className="cursor-pointer" />
       </Link>
-      <Link href="/home" passHref>
-        <FontAwesomeIcon icon={faMessage} className="cursor-pointer" />
+      <Link href="/friends" passHref>
+        <FontAwesomeIcon icon={faUserGroup} className="cursor-pointer" />
       </Link>
       <Link
         href="/schedule"
@@ -32,7 +32,14 @@ const Menubar = () => {
         <FontAwesomeIcon icon={faList} className="cursor-pointer" />
       </Link>
       <Link href="/home" passHref>
-        <FontAwesomeIcon icon={faUser} className="cursor-pointer" />
+        {/* <FontAwesomeIcon icon={faUser} className="cursor-pointer" /> */}
+        <Image
+          src={emptyImg}
+          width={2.5 * 16} // 3rem
+          height={2.5 * 16} // 3rem
+          alt="profile"
+          className="block object-cover w-10 h-10 border border-gray-400 border-solid rounded-full"
+        />
       </Link>
     </nav>
   );
