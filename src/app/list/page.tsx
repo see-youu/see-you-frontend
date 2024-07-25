@@ -5,7 +5,7 @@ import { faLock, faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import emptyImg from "../../../public/emptyImg.png";
+import emptyImg from "@/../public/emptyImg.png";
 import Link from "next/link";
 import NoneBackMenuHeader from "@/components/menubar/NoneBackMenuHeader";
 interface scheduleType {

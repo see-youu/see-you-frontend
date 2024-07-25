@@ -65,7 +65,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <div className="w-24 h-1 mx-auto mb-3 bg-gray-300 rounded-lg"></div>
       {children}
