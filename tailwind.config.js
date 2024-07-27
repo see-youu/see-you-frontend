@@ -52,10 +52,25 @@ module.exports = {
           from: { opacity: "1", transform: "translateY(0)" },
           to: { opacity: "0", transform: "translateY(20px)" },
         },
+        fadeInDown: {
+          from: { opacity: "0", transform: "translateY(20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeOutUp: {
+          from: { opacity: "1", transform: "translateY(20px)" },
+          to: { opacity: "0", transform: "translateY(0)" },
+        },
+        fadeOut: {
+          from: { opacity: "1" },
+          to: { opacity: "0" },
+        },
       },
       animation: {
         fadeInUp: "fadeInUp 0.5s ease-out",
         fadeOutDown: "fadeOutDown 0.5s ease-out",
+        fadeInDown: "fadeInDown 0.5s ease-out",
+        fadeOutUp: "fadeOutUp 0.5s ease-out",
+        fadeOut: "fadeOut 0.5s ease-out",
       },
     },
   },

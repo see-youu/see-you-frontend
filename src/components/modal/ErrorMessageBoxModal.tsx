@@ -11,7 +11,7 @@ const ErrorMessageBoxModal: React.FC<ErrorMessageProps> = ({
 }) => {
   return (
     <div
-      className={`fixed px-4 py-1 text-red-600 bg-white border-2 border-red-600 border-solid top-menuber rounded-xl ${
+      className={`fixed px-4 py-1 text-red-600 bg-white border-2 border-red-600 border-solid top-menubar rounded-xl ${
         visible ? "animate-fadeInUp" : "animate-fadeOutDown"
       }`}
     >

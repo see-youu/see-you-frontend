@@ -10,3 +10,4 @@ export const RECENT_SEARCH_KEYWORD = "history/keyword";
 export const RECENT_SEARCH_LOCATION = "history/location";
 export const SEARCH_FRIENDS = "member/search";
 export const FRIENDS_REQUEST_LIST = "member/friends/requests";
+export const ACCEPT_FRIEND_REQUEST = "member/friends/accept";

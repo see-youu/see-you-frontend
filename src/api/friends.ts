@@ -1,6 +1,10 @@
 import { getCookie } from "@/utils/cookie";
 import { api } from "./api";
-import { FRIENDS_REQUEST_LIST, SEARCH_FRIENDS } from "./endPoints";
+import {
+  ACCEPT_FRIEND_REQUEST,
+  FRIENDS_REQUEST_LIST,
+  SEARCH_FRIENDS,
+} from "./endPoints";
 
 export const fetchSearchFriendUsername = async (username: string) => {
   try {
@@ -27,6 +31,25 @@ export const fetchFriendsRequestList = async () => {
       },
     });
     return response.data.friendRequests;
+  } catch (error: any) {
+    console.log("Error fetching friends request result:", error.response);
+    return null;
+  }
+};
+
+export const acceptFriendRequest = async (requestId: number) => {
+  try {
+    const response = await api.post(
+      ACCEPT_FRIEND_REQUEST,
+      { requestId },
+      {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+      }
+    );
+    if (response.status === 200) return true;
+    else return false;
   } catch (error: any) {
     console.log("Error fetching search friends result:", error.response);
     return null;
