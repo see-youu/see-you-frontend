@@ -5,6 +5,7 @@ import {
   FRIENDS_LIST,
   FRIENDS_REQUEST_LIST,
   SEARCH_FRIENDS,
+  SEND_FRIEND_REQUEST,
 } from "./endPoints";
 
 export const fetchFriendList = async () => {
@@ -28,12 +29,30 @@ export const fetchSearchFriendUsername = async (username: string) => {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },
       params: {
-        username,
+        username: username,
       },
     });
     return response.data;
   } catch (error: any) {
     console.log("Error fetching search friends result:", error.response);
+    return null;
+  }
+};
+
+export const sendFriendRequest = async (memberId: number) => {
+  try {
+    const response = await api.post(
+      SEND_FRIEND_REQUEST,
+      { receiverID: memberId },
+      {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    console.log("Error send request", error.response);
     return null;
   }
 };
