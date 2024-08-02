@@ -1,29 +1,12 @@
 "use client";
-import {
-  acceptFriendRequest,
-  fetchFriendsRequestList,
-  fetchSearchFriendUsername,
-  sendFriendRequest,
-} from "@/api/friends";
-import Menubar from "@/components/menubar/Menubar";
-import MenuHeader from "@/components/menubar/MenuHeader";
-import { MemberType } from "@/types/scheduleType";
-import { formatDate, formatTime } from "@/utils/parseFormat";
-import { faAddressBook } from "@fortawesome/free-regular-svg-icons";
-import {
-  faCircleUser,
-  faSearch,
-  faSpellCheck,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { fetchSearchFriendUsername, sendFriendRequest } from "@/api/friends";
+import { faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import emptyImg from "@/../public/emptyImg.png";
-import BottomSheet from "@/components/modal/BottomSheet";
 import ModalWrapper from "@/components/modal/ModalWrapper";
 import AlertMessage from "@/components/modal/AlertMessage";
-import Link from "next/link";
 import { getMemberId } from "@/utils/jwtToken";
 
 interface FriendType {

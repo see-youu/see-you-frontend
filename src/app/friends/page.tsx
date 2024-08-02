@@ -7,12 +7,14 @@ import {
   faChevronUp,
   faSearch,
   faUserPlus,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import emptyImg from "@/../public/emptyImg.png";
+import ModalWrapper from "@/components/modal/ModalWrapper";
 interface FriendType {
   memberId: number;
   name: string;
@@ -25,6 +27,9 @@ export default function () {
   const [closeStarFriends, setCloseStarFriends] = useState(false);
   const [closeFriends, setCloseFriends] = useState(false);
   const [friends, setFriends] = useState<FriendType[] | null>(null);
+  const [profileDetailOpen, setProfileDetailOpen] = useState<boolean>(false);
+  const [deleteAlertOpen, setDeleteAlertOpen] = useState<boolean>(false);
+  const [selectedFriend, setSelectedFriend] = useState<FriendType | null>(null);
   const starMembers = [
     {
       id: 106,
@@ -37,6 +42,12 @@ export default function () {
   const handleSearch = () => {
     console.log("search");
   };
+
+  const handleDeleteFriend = (memberId: number) => {
+    console.log("delete ", memberId);
+    setDeleteAlertOpen(false);
+  };
+
   useEffect(() => {
     const fetchFriends = async () => {
       const friendsData = await fetchFriendList();
@@ -50,6 +61,7 @@ export default function () {
     fetchRequests();
     setIsLoading(false);
   }, []);
+
   if (isLoading)
     return (
       <div className="w-full h-screen">
@@ -139,6 +151,10 @@ export default function () {
               <div
                 key={friend.memberId}
                 className="flex items-center gap-5 my-3 cursor-pointer"
+                onClick={() => {
+                  setSelectedFriend(friend);
+                  setProfileDetailOpen(true);
+                }}
               >
                 <Image
                   src={
@@ -154,6 +170,93 @@ export default function () {
             ))}
         </section>
       </div>
+      {profileDetailOpen && selectedFriend && (
+        <ModalWrapper backgroundColor="transparent">
+          <div
+            className="flex items-center justify-center w-full h-full"
+            onClick={() => {
+              setProfileDetailOpen(false);
+              setSelectedFriend(null);
+            }}
+          >
+            <div
+              className="relative flex flex-col items-center gap-4 px-20 py-8 border border-gray-200 border-solid rounded-md bg-gray-50"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FontAwesomeIcon
+                icon={faXmark}
+                className="absolute text-lg cursor-pointer right-3 top-3"
+                onClick={() => {
+                  setProfileDetailOpen(false);
+                  setSelectedFriend(null);
+                }}
+              />
+              <Image
+                src={emptyImg}
+                width={4 * 16} // 3rem
+                height={4 * 16} // 3rem
+                alt="profile"
+                className="block object-cover w-16 h-16 border border-gray-400 border-solid rounded-full y"
+              />
+              <p>{selectedFriend.name}</p>
+
+              <button
+                className="px-4 py-2 text-sm bg-gray-200 rounded-md"
+                onClick={() => {
+                  setDeleteAlertOpen(true);
+                  setProfileDetailOpen(false);
+                }}
+              >
+                친구 삭제
+              </button>
+            </div>
+          </div>
+        </ModalWrapper>
+      )}
+      {deleteAlertOpen && selectedFriend && (
+        <ModalWrapper backgroundColor="transparent">
+          <div
+            className="flex items-center justify-center w-full h-full"
+            onClick={() => {
+              setDeleteAlertOpen(false);
+              setProfileDetailOpen(true);
+            }}
+          >
+            <div
+              className="relative flex flex-col items-center gap-4 px-10 py-8 border border-gray-200 border-solid rounded-md bg-gray-50"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FontAwesomeIcon
+                icon={faXmark}
+                className="absolute text-lg cursor-pointer right-3 top-3"
+                onClick={() => {
+                  setDeleteAlertOpen(false);
+                  setProfileDetailOpen(true);
+                }}
+              />
+
+              <p>{selectedFriend.name} 님을 친구 목록에서 삭제하시겠습니까?</p>
+              <div className="flex justify-center w-full gap-4 text-sm">
+                <button
+                  className="px-4 py-2 bg-white border border-gray-200 border-solid rounded-md"
+                  onClick={() => {
+                    setDeleteAlertOpen(false);
+                    setProfileDetailOpen(true);
+                  }}
+                >
+                  취소
+                </button>
+                <button
+                  className="px-4 rounded-md py- bg-customYellow"
+                  onClick={() => handleDeleteFriend(selectedFriend.memberId)}
+                >
+                  삭제
+                </button>
+              </div>
+            </div>
+          </div>
+        </ModalWrapper>
+      )}
       <Menubar />
     </>
   );
