@@ -1,9 +1,6 @@
 "use client";
 import { acceptFriendRequest, fetchFriendsRequestList } from "@/api/friends";
-import Menubar from "@/components/menubar/Menubar";
-import MenuHeader from "@/components/menubar/MenuHeader";
 import { MemberType } from "@/types/scheduleType";
-import { formatDate, formatTime } from "@/utils/parseFormat";
 import { faAddressBook } from "@fortawesome/free-regular-svg-icons";
 import {
   faCircleUser,
@@ -14,7 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import emptyImg from "@/../public/emptyImg.png";
-import BottomSheet from "@/components/modal/BottomSheet";
 import ModalWrapper from "@/components/modal/ModalWrapper";
 import AlertMessage from "@/components/modal/AlertMessage";
 import Link from "next/link";
@@ -29,8 +25,6 @@ interface RequestType {
   createdDate: Date;
 }
 export default function () {
-  const [searchFriend, setSearchFriend] = useState("");
-  const [foundFriend, setFoundFriend] = useState<MemberType[]>([]);
   const [requests, setRequests] = useState<RequestType[]>([]);
   const [selectedRequest, setSelectedRequest] = useState<RequestType | null>(
     null
@@ -43,8 +37,8 @@ export default function () {
   };
 
   const handleAcceptRequest = async (requestId: number) => {
-    const response = await acceptFriendRequest(requestId);
-    if (response) {
+    const data = await acceptFriendRequest(requestId);
+    if (data) {
       setIsAlert("친구 요청을 수락하였습니다.");
       setSelectedRequest(null);
     } else setIsAlert("오류가 발생했습니다.");

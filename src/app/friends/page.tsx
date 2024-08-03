@@ -5,6 +5,7 @@ import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 import {
   faChevronDown,
   faChevronUp,
+  faCircleMinus,
   faSearch,
   faUserPlus,
   faXmark,
@@ -15,6 +16,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import emptyImg from "@/../public/emptyImg.png";
 import ModalWrapper from "@/components/modal/ModalWrapper";
+import AlertMessage from "@/components/modal/AlertMessage";
 interface FriendType {
   memberId: number;
   name: string;
@@ -30,6 +32,8 @@ export default function () {
   const [profileDetailOpen, setProfileDetailOpen] = useState<boolean>(false);
   const [deleteAlertOpen, setDeleteAlertOpen] = useState<boolean>(false);
   const [selectedFriend, setSelectedFriend] = useState<FriendType | null>(null);
+  const [isAlert, setIsAlert] = useState<string | null>(null);
+
   const starMembers = [
     {
       id: 106,
@@ -45,7 +49,11 @@ export default function () {
 
   const handleDeleteFriend = (memberId: number) => {
     console.log("delete ", memberId);
-    setDeleteAlertOpen(false);
+    const data = true;
+    if (data) {
+      setIsAlert("친구 목록에서 삭제되었습니다.");
+      setDeleteAlertOpen(false);
+    } else setIsAlert("오류가 발생했습니다.");
   };
 
   useEffect(() => {
@@ -198,16 +206,21 @@ export default function () {
                 alt="profile"
                 className="block object-cover w-16 h-16 border border-gray-400 border-solid rounded-full y"
               />
-              <p>{selectedFriend.name}</p>
+              <div className="flex items-center gap-2">
+                <p>{selectedFriend.name}</p>
+                <FontAwesomeIcon
+                  icon={faCircleMinus}
+                  className="text-sm text-red-500 cursor-pointer"
+                  onClick={() => {
+                    setDeleteAlertOpen(true);
+                    setProfileDetailOpen(false);
+                  }}
+                />
+              </div>
 
-              <button
-                className="px-4 py-2 text-sm bg-gray-200 rounded-md"
-                onClick={() => {
-                  setDeleteAlertOpen(true);
-                  setProfileDetailOpen(false);
-                }}
-              >
-                친구 삭제
+              <button className="flex items-center gap-1 px-4 py-2 text-sm bg-gray-200 rounded-md">
+                <span>공개된 약속</span>
+                <span className="text-xs text-gray-500">2</span>
               </button>
             </div>
           </div>
@@ -216,7 +229,7 @@ export default function () {
       {deleteAlertOpen && selectedFriend && (
         <ModalWrapper backgroundColor="transparent">
           <div
-            className="flex items-center justify-center w-full h-full"
+            className="flex items-center justify-center w-full h-full text-sm"
             onClick={() => {
               setDeleteAlertOpen(false);
               setProfileDetailOpen(true);
@@ -236,7 +249,7 @@ export default function () {
               />
 
               <p>{selectedFriend.name} 님을 친구 목록에서 삭제하시겠습니까?</p>
-              <div className="flex justify-center w-full gap-4 text-sm">
+              <div className="flex justify-center w-full gap-4 text-xs">
                 <button
                   className="px-4 py-2 bg-white border border-gray-200 border-solid rounded-md"
                   onClick={() => {
@@ -256,6 +269,9 @@ export default function () {
             </div>
           </div>
         </ModalWrapper>
+      )}
+      {isAlert && (
+        <AlertMessage message={isAlert} setClose={() => setIsAlert(null)} />
       )}
       <Menubar />
     </>

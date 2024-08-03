@@ -27,12 +27,16 @@ const AlertMessage: React.FC<AlertMessageProps> = ({
 
   return (
     <div
-      className={`text-sm fixed px-4 py-1 text-black bg-gray-200 border border-gray-200 border-solid rounded-xl  ${
-        messageVisible ? "animate-fadeInDown" : "animate-fadeOut"
-      }`}
+      className="fixed flex justify-center modal-width"
       style={{ bottom: "calc(var(--menubar-height) + 2rem)" }}
     >
-      {message}
+      <p
+        className={`text-sm px-4 py-1 text-black bg-gray-200 border border-gray-200 border-solid rounded-xl  ${
+          messageVisible ? "animate-fadeInDown" : "animate-fadeOut"
+        }`}
+      >
+        {message}
+      </p>
     </div>
   );
 };
