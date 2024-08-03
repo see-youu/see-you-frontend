@@ -165,9 +165,7 @@ export default function () {
                 }}
               >
                 <Image
-                  src={
-                    friend.profileImageUrl ? friend.profileImageUrl : emptyImg
-                  }
+                  src={friend.profileImageUrl || emptyImg}
                   width={3 * 16} // 3rem
                   height={3 * 16} // 3rem
                   alt="profile"

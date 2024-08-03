@@ -4,6 +4,7 @@ import {
   ACCEPT_FRIEND_REQUEST,
   FRIENDS_LIST,
   FRIENDS_REQUEST_LIST,
+  REJECT_FRIEND_REQUEST,
   SEARCH_FRIENDS,
   SEND_FRIEND_REQUEST,
 } from "./endPoints";
@@ -75,6 +76,25 @@ export const acceptFriendRequest = async (requestId: number) => {
   try {
     const response = await api.post(
       ACCEPT_FRIEND_REQUEST,
+      { requestId },
+      {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+      }
+    );
+    if (response.status === 200) return true;
+    else return false;
+  } catch (error: any) {
+    console.log("Error fetching search friends result:", error.response);
+    return null;
+  }
+};
+
+export const rejectFriendRequest = async (requestId: number) => {
+  try {
+    const response = await api.post(
+      REJECT_FRIEND_REQUEST,
       { requestId },
       {
         headers: {

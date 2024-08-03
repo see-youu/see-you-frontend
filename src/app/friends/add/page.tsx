@@ -1,6 +1,9 @@
 "use client";
-import { acceptFriendRequest, fetchFriendsRequestList } from "@/api/friends";
-import { MemberType } from "@/types/scheduleType";
+import {
+  acceptFriendRequest,
+  fetchFriendsRequestList,
+  rejectFriendRequest,
+} from "@/api/friends";
 import { faAddressBook } from "@fortawesome/free-regular-svg-icons";
 import {
   faCircleUser,
@@ -15,6 +18,8 @@ import ModalWrapper from "@/components/modal/ModalWrapper";
 import AlertMessage from "@/components/modal/AlertMessage";
 import Link from "next/link";
 
+const ACCEPT = "accept";
+const REJECT = "reject";
 interface RequestType {
   requestId: number;
   sender: {
@@ -24,12 +29,24 @@ interface RequestType {
   };
   createdDate: Date;
 }
+
+interface checkModalType {
+  target: RequestType | null;
+  isOpen: boolean;
+  type: string;
+}
+
 export default function () {
   const [requests, setRequests] = useState<RequestType[]>([]);
   const [selectedRequest, setSelectedRequest] = useState<RequestType | null>(
     null
   );
   const [isAlert, setIsAlert] = useState<string | null>(null);
+  const [checkAlertOpen, setCheckAlertOpen] = useState<checkModalType>({
+    target: null,
+    isOpen: false,
+    type: "",
+  });
 
   const fetchRequests = async () => {
     const data = await fetchFriendsRequestList();
@@ -41,6 +58,17 @@ export default function () {
     if (data) {
       setIsAlert("친구 요청을 수락하였습니다.");
       setSelectedRequest(null);
+      setCheckAlertOpen({ target: null, isOpen: false, type: "" });
+    } else setIsAlert("오류가 발생했습니다.");
+    fetchRequests();
+  };
+
+  const handleRejectRequest = async (requestId: number) => {
+    const data = await rejectFriendRequest(requestId);
+    if (data) {
+      setIsAlert("친구 요청을 거절하였습니다.");
+      setSelectedRequest(null);
+      setCheckAlertOpen({ target: null, isOpen: false, type: "" });
     } else setIsAlert("오류가 발생했습니다.");
     fetchRequests();
   };
@@ -83,7 +111,7 @@ export default function () {
                 onClick={() => setSelectedRequest(request)}
               >
                 <Image
-                  src={emptyImg}
+                  src={request.sender.profileImageUrl || emptyImg}
                   width={3 * 16} // 3rem
                   height={3 * 16} // 3rem
                   alt="profile"
@@ -91,15 +119,30 @@ export default function () {
                 />
                 <p>{request.sender.name}</p>
               </div>
-              <div className="flex gap-2 text-sm">
+              <div className="flex gap-2 text-xs">
                 {/* {formatDate(request.createdDate)}{" "}
                   {formatTime(request.createdDate)} */}
-                <button className="px-4 py-2 bg-white border border-gray-200 border-solid rounded-md">
+                <button
+                  className="px-4 py-2 bg-white border border-gray-200 border-solid rounded-md"
+                  onClick={() => {
+                    setCheckAlertOpen({
+                      target: request,
+                      isOpen: true,
+                      type: REJECT,
+                    });
+                  }}
+                >
                   거절
                 </button>
                 <button
                   className="px-4 py-2 rounded-md bg-customYellow"
-                  onClick={() => handleAcceptRequest(request.requestId)}
+                  onClick={() => {
+                    setCheckAlertOpen({
+                      target: request,
+                      isOpen: true,
+                      type: ACCEPT,
+                    });
+                  }}
                 >
                   수락
                 </button>
@@ -107,7 +150,7 @@ export default function () {
             </div>
           ))}
       </section>
-      {!!selectedRequest && (
+      {!!selectedRequest && !checkAlertOpen.isOpen && (
         <ModalWrapper backgroundColor="transparent">
           <div
             className="flex items-center justify-center w-full h-full"
@@ -127,7 +170,7 @@ export default function () {
                 }}
               />
               <Image
-                src={emptyImg}
+                src={selectedRequest.sender.profileImageUrl || emptyImg}
                 width={4 * 16} // 3rem
                 height={4 * 16} // 3rem
                 alt="profile"
@@ -135,14 +178,80 @@ export default function () {
               />
               <p>{selectedRequest.sender.name}</p>
               <div className="flex justify-center w-full gap-4 text-sm">
-                <button className="px-4 py-2 bg-white border border-gray-200 border-solid rounded-md">
+                <button
+                  className="px-4 py-2 bg-white border border-gray-200 border-solid rounded-md"
+                  onClick={() =>
+                    setCheckAlertOpen({
+                      target: selectedRequest,
+                      isOpen: true,
+                      type: REJECT,
+                    })
+                  }
+                >
                   거절
                 </button>
                 <button
                   className="px-4 py-2 rounded-md bg-customYellow"
-                  onClick={() => handleAcceptRequest(selectedRequest.requestId)}
+                  onClick={() =>
+                    setCheckAlertOpen({
+                      target: selectedRequest,
+                      isOpen: true,
+                      type: ACCEPT,
+                    })
+                  }
                 >
                   수락
+                </button>
+              </div>
+            </div>
+          </div>
+        </ModalWrapper>
+      )}
+      {checkAlertOpen.isOpen && checkAlertOpen.target && (
+        <ModalWrapper backgroundColor="transparent">
+          <div
+            className="flex items-center justify-center w-full h-full text-sm"
+            onClick={() =>
+              setCheckAlertOpen({ target: null, isOpen: false, type: "" })
+            }
+          >
+            <div
+              className="relative flex flex-col items-center gap-4 px-10 py-8 border border-gray-200 border-solid rounded-md bg-gray-50"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FontAwesomeIcon
+                icon={faXmark}
+                className="absolute text-lg cursor-pointer right-3 top-3"
+                onClick={() =>
+                  setCheckAlertOpen({ target: null, isOpen: false, type: "" })
+                }
+              />
+
+              <p>
+                {`${checkAlertOpen.target.sender.name} 님을 친구 요청을 ${
+                  checkAlertOpen.type === ACCEPT ? "수락" : "거절"
+                }하시겠습니까?`}
+              </p>
+              <div className="flex justify-center w-full gap-4 text-xs">
+                <button
+                  className="px-4 py-2 bg-white border border-gray-200 border-solid rounded-md"
+                  onClick={() =>
+                    setCheckAlertOpen({ target: null, isOpen: false, type: "" })
+                  }
+                >
+                  취소
+                </button>
+                <button
+                  className="px-4 rounded-md py- bg-customYellow"
+                  onClick={() => {
+                    if (checkAlertOpen.target) {
+                      checkAlertOpen.type === ACCEPT
+                        ? handleAcceptRequest(checkAlertOpen.target.requestId)
+                        : handleRejectRequest(checkAlertOpen.target.requestId);
+                    }
+                  }}
+                >
+                  확인
                 </button>
               </div>
             </div>

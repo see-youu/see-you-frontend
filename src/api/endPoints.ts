@@ -13,3 +13,4 @@ export const FRIENDS_LIST = "member/friends";
 export const SEND_FRIEND_REQUEST = "member/friends/send";
 export const FRIENDS_REQUEST_LIST = "member/friends/requests";
 export const ACCEPT_FRIEND_REQUEST = "member/friends/accept";
+export const REJECT_FRIEND_REQUEST = "member/friends/reject";

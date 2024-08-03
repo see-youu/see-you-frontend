@@ -1,9 +1,13 @@
 "use client";
-import { fetchSearchFriendUsername, sendFriendRequest } from "@/api/friends";
+import {
+  fetchFriendList,
+  fetchSearchFriendUsername,
+  sendFriendRequest,
+} from "@/api/friends";
 import { faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import emptyImg from "@/../public/emptyImg.png";
 import ModalWrapper from "@/components/modal/ModalWrapper";
 import AlertMessage from "@/components/modal/AlertMessage";
@@ -17,6 +21,7 @@ interface FriendType {
 export default function () {
   const [searchUsername, setSearchUsername] = useState<string>("");
   const [searchResult, setSearchResult] = useState<FriendType | null>();
+  const [myFriends, setMyFriends] = useState<FriendType[]>();
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
   const [isAlert, setIsAlert] = useState<string | null>(null);
 
@@ -34,6 +39,23 @@ export default function () {
       setIsDetailOpen(false);
       setIsAlert("친구 요청을 보냈습니다.");
     } else setIsAlert("오류가 발생했습니다.");
+  };
+
+  useEffect(() => {
+    const fetchFriends = async () => {
+      const friendsData = await fetchFriendList();
+      setMyFriends(friendsData);
+    };
+
+    fetchFriends();
+  }, []);
+
+  const checkFriendExistence = (friendToCheck: FriendType): boolean => {
+    if (myFriends)
+      return myFriends.some(
+        (friend) => friend.memberId === friendToCheck.memberId
+      );
+    return false;
   };
 
   return (
@@ -88,12 +110,14 @@ export default function () {
                   내 프로필 보기
                 </button>
               ) : (
-                <button
-                  className="px-4 py-2 text-sm rounded-md bg-customYellow"
-                  onClick={() => handleSendRequest(searchResult.memberId)}
-                >
-                  요청
-                </button>
+                !checkFriendExistence(searchResult) && (
+                  <button
+                    className="px-4 py-2 text-sm rounded-md bg-customYellow"
+                    onClick={() => handleSendRequest(searchResult.memberId)}
+                  >
+                    요청
+                  </button>
+                )
               )}
             </div>
           </>
@@ -130,14 +154,15 @@ export default function () {
                 className="block object-cover w-16 h-16 border border-gray-400 border-solid rounded-full y"
               />
               <p>{searchResult.name}</p>
-              {getMemberId() !== searchResult.memberId && (
-                <button
-                  className="px-4 py-2 text-sm rounded-md bg-customYellow"
-                  onClick={() => handleSendRequest(searchResult.memberId)}
-                >
-                  요청
-                </button>
-              )}
+              {getMemberId() !== searchResult.memberId &&
+                !checkFriendExistence(searchResult) && (
+                  <button
+                    className="px-4 py-2 text-sm rounded-md bg-customYellow"
+                    onClick={() => handleSendRequest(searchResult.memberId)}
+                  >
+                    요청
+                  </button>
+                )}
             </div>
           </div>
         </ModalWrapper>
