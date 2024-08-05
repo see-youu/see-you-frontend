@@ -16,6 +16,9 @@ import useFriends from "@/hooks/useFriends";
 import useFriendRequests from "@/hooks/useFriendRequest";
 import { useAlert } from "@/context/AlertProvider";
 import SearchInput from "@/components/input/SearchInput";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { ModalState, openProfileDetail } from "@/store/modalSlice";
 interface FriendType {
   memberId: number;
   name: string;
@@ -39,11 +42,12 @@ export default function () {
   const { friends, isLoading } = useFriends();
   const { requestCount } = useFriendRequests();
   const { setAlert } = useAlert();
+  const dispatch = useDispatch();
 
   const [searchFriend, setSearchFriend] = useState("");
-  const [profileDetailOpen, setProfileDetailOpen] = useState<boolean>(false);
+  // const [profileDetailOpen, setProfileDetailOpen] = useState<boolean>(false);
   const [deleteAlertOpen, setDeleteAlertOpen] = useState<boolean>(false);
-  const [selectedFriend, setSelectedFriend] = useState<FriendType | null>(null);
+  // const [selectedFriend, setSelectedFriend] = useState<FriendType | null>(null);
   const [sectionsOpen, setSectionsOpen] = useState<SectionsOpenState>({
     starFriends: true,
     friends: true,
@@ -60,14 +64,14 @@ export default function () {
     console.log("search");
   };
 
-  const handleDeleteFriend = (memberId: number) => {
-    console.log("delete ", memberId);
-    const data = true;
-    if (data) {
-      setAlert("친구 목록에서 삭제되었습니다.");
-      setDeleteAlertOpen(false);
-    } else setAlert("오류가 발생했습니다.");
-  };
+  // const handleDeleteFriend = (memberId: number) => {
+  //   console.log("delete ", memberId);
+  //   const data = true;
+  //   if (data) {
+  //     setAlert("친구 목록에서 삭제되었습니다.");
+  //     setDeleteAlertOpen(false);
+  //   } else setAlert("오류가 발생했습니다.");
+  // };
 
   if (isLoading)
     return (
@@ -114,8 +118,8 @@ export default function () {
             <FriendList
               friends={starMembers}
               onFriendClick={(friend: FriendType) => {
-                setSelectedFriend(friend);
-                setProfileDetailOpen(true);
+                // setSelectedFriend(friend);
+                dispatch(openProfileDetail(friend));
               }}
             />
           )}
@@ -133,14 +137,13 @@ export default function () {
             <FriendList
               friends={friends}
               onFriendClick={(friend: FriendType) => {
-                setSelectedFriend(friend);
-                setProfileDetailOpen(true);
+                dispatch(openProfileDetail(friend));
               }}
             />
           )}
         </section>
       </div>
-      {profileDetailOpen && selectedFriend && (
+      {/* {profileDetailOpen && selectedFriend && (
         <ProfileDetailModal
           target={selectedFriend}
           onClose={() => {
@@ -162,7 +165,7 @@ export default function () {
           }}
           onConfirm={() => handleDeleteFriend(selectedFriend.memberId)}
         />
-      )}
+      )} */}
       <Menubar />
     </>
   );

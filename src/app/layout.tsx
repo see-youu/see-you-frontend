@@ -6,6 +6,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { Providers } from "./providers";
 import Script from "next/script";
+import dynamic from "next/dynamic";
+
 config.autoAddCss = false;
 
 const inter = Inter({ subsets: ["latin"] });
@@ -47,6 +49,11 @@ export const metadata: Metadata = {
   keywords: ["SeeYou"],
 };
 
+const ModalsContainer = dynamic(
+  () => import("@/components/modal/ModalsContainer"),
+  { ssr: false }
+);
+
 export default function RootLayout({
   children,
 }: {
@@ -59,7 +66,10 @@ export default function RootLayout({
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wn6b2vfwot`}
       />
       <body className={`${inter.className} ${gaegu.variable}`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <ModalsContainer />
+        </Providers>
       </body>
     </html>
   );
