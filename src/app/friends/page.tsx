@@ -41,13 +41,9 @@ const starMembers = [
 export default function () {
   const { friends, isLoading } = useFriends();
   const { requestCount } = useFriendRequests();
-  const { setAlert } = useAlert();
   const dispatch = useDispatch();
 
   const [searchFriend, setSearchFriend] = useState("");
-  // const [profileDetailOpen, setProfileDetailOpen] = useState<boolean>(false);
-  const [deleteAlertOpen, setDeleteAlertOpen] = useState<boolean>(false);
-  // const [selectedFriend, setSelectedFriend] = useState<FriendType | null>(null);
   const [sectionsOpen, setSectionsOpen] = useState<SectionsOpenState>({
     starFriends: true,
     friends: true,
@@ -63,15 +59,6 @@ export default function () {
   const onSearch = () => {
     console.log("search");
   };
-
-  // const handleDeleteFriend = (memberId: number) => {
-  //   console.log("delete ", memberId);
-  //   const data = true;
-  //   if (data) {
-  //     setAlert("친구 목록에서 삭제되었습니다.");
-  //     setDeleteAlertOpen(false);
-  //   } else setAlert("오류가 발생했습니다.");
-  // };
 
   if (isLoading)
     return (
@@ -118,7 +105,6 @@ export default function () {
             <FriendList
               friends={starMembers}
               onFriendClick={(friend: FriendType) => {
-                // setSelectedFriend(friend);
                 dispatch(openProfileDetail(friend));
               }}
             />
@@ -143,29 +129,6 @@ export default function () {
           )}
         </section>
       </div>
-      {/* {profileDetailOpen && selectedFriend && (
-        <ProfileDetailModal
-          target={selectedFriend}
-          onClose={() => {
-            setProfileDetailOpen(false);
-            setSelectedFriend(null);
-          }}
-          onDeleteFriend={() => {
-            setDeleteAlertOpen(true);
-            setProfileDetailOpen(false);
-          }}
-        />
-      )}
-      {deleteAlertOpen && selectedFriend && (
-        <ConfirmationModal
-          message={`${selectedFriend.name} 님을 친구 목록에서 삭제하시겠습니까?`}
-          onCancel={() => {
-            setDeleteAlertOpen(false);
-            setProfileDetailOpen(true);
-          }}
-          onConfirm={() => handleDeleteFriend(selectedFriend.memberId)}
-        />
-      )} */}
       <Menubar />
     </>
   );

@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface ModalState {
   profileDetailOpen: boolean;
   confirmationModalOpen: boolean;
+  friendRequestModalOpen: boolean;
   selectedProfile: FriendType | null;
   confirmMessage: string;
 }
@@ -11,6 +12,7 @@ export interface ModalState {
 const initialState = {
   profileDetailOpen: false,
   confirmationModalOpen: false,
+  friendRequestModalOpen: false,
   selectedProfile: null,
   confirmMessage: "",
 };
@@ -36,9 +38,18 @@ export const modalSlice = createSlice({
       state.confirmationModalOpen = false;
       state.confirmMessage = "";
     },
+    openFriendRequestModal: (state, action) => {
+      state.friendRequestModalOpen = true;
+      state.selectedProfile = action.payload;
+    },
+    closeFriendRequestModal: (state) => {
+      state.friendRequestModalOpen = false;
+      state.selectedProfile = null;
+    },
     closeAllModal: (state) => {
       state.profileDetailOpen = false;
       state.confirmationModalOpen = false;
+      state.friendRequestModalOpen = false;
     },
   },
 });
@@ -48,6 +59,8 @@ export const {
   closeProfileDetail,
   openConfirmationModal,
   closeConfirmationModal,
+  openFriendRequestModal,
+  closeFriendRequestModal,
   closeAllModal,
 } = modalSlice.actions;
 

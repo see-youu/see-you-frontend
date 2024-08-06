@@ -17,6 +17,8 @@ import emptyImg from "@/../public/emptyImg.png";
 import ModalWrapper from "@/components/modal/ModalWrapper";
 import AlertMessage from "@/components/modal/AlertMessage";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { openFriendRequestModal } from "@/store/modalSlice";
 
 const ACCEPT = "accept";
 const REJECT = "reject";
@@ -37,6 +39,8 @@ interface checkModalType {
 }
 
 export default function () {
+  const dispatch = useDispatch();
+
   const [requests, setRequests] = useState<RequestType[]>([]);
   const [selectedRequest, setSelectedRequest] = useState<RequestType | null>(
     null
@@ -108,7 +112,9 @@ export default function () {
             >
               <div
                 className="flex items-center gap-5 cursor-pointer"
-                onClick={() => setSelectedRequest(request)}
+                onClick={() => {
+                  dispatch(openFriendRequestModal(request.sender));
+                }}
               >
                 <Image
                   src={request.sender.profileImageUrl || emptyImg}
@@ -150,7 +156,7 @@ export default function () {
             </div>
           ))}
       </section>
-      {!!selectedRequest && !checkAlertOpen.isOpen && (
+      {/* {!!selectedRequest && !checkAlertOpen.isOpen && (
         <ModalWrapper backgroundColor="transparent">
           <div
             className="flex items-center justify-center w-full h-full"
@@ -206,8 +212,8 @@ export default function () {
             </div>
           </div>
         </ModalWrapper>
-      )}
-      {checkAlertOpen.isOpen && checkAlertOpen.target && (
+      )} */}
+      {/* {checkAlertOpen.isOpen && checkAlertOpen.target && (
         <ModalWrapper backgroundColor="transparent">
           <div
             className="flex items-center justify-center w-full h-full text-sm"
@@ -257,7 +263,7 @@ export default function () {
             </div>
           </div>
         </ModalWrapper>
-      )}
+      )} */}
       {isAlert && (
         <AlertMessage message={isAlert} setClose={() => setIsAlert(null)} />
       )}
