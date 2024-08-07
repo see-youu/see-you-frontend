@@ -5,20 +5,23 @@ import {
   rejectFriendRequest,
 } from "@/api/friends";
 import { faAddressBook } from "@fortawesome/free-regular-svg-icons";
-import {
-  faCircleUser,
-  faSpellCheck,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faSpellCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import emptyImg from "@/../public/emptyImg.png";
-import ModalWrapper from "@/components/modal/ModalWrapper";
-import AlertMessage from "@/components/modal/AlertMessage";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
-import { openFriendRequestModal } from "@/store/modalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  closeAllModal,
+  ModalState,
+  openFriendRequestModal,
+  setSelectedProfile,
+} from "@/store/modalSlice";
+import { useFriendRequest } from "@/context/friend/RequestProvider";
+import { RootState } from "@/store/store";
+import { useAlert } from "@/context/AlertProvider";
+import useHandleRequests from "@/hooks/useHandleRequests";
 
 const ACCEPT = "accept";
 const REJECT = "reject";
@@ -32,49 +35,14 @@ interface RequestType {
   createdDate: Date;
 }
 
-interface checkModalType {
-  target: RequestType | null;
-  isOpen: boolean;
-  type: string;
-}
-
 export default function () {
   const dispatch = useDispatch();
-
-  const [requests, setRequests] = useState<RequestType[]>([]);
-  const [selectedRequest, setSelectedRequest] = useState<RequestType | null>(
-    null
-  );
-  const [isAlert, setIsAlert] = useState<string | null>(null);
-  const [checkAlertOpen, setCheckAlertOpen] = useState<checkModalType>({
-    target: null,
-    isOpen: false,
-    type: "",
-  });
+  const { friendRequests, setFriendRequests } = useFriendRequest();
+  const { handleAccept, handleReject } = useHandleRequests();
 
   const fetchRequests = async () => {
     const data = await fetchFriendsRequestList();
-    setRequests(data);
-  };
-
-  const handleAcceptRequest = async (requestId: number) => {
-    const data = await acceptFriendRequest(requestId);
-    if (data) {
-      setIsAlert("친구 요청을 수락하였습니다.");
-      setSelectedRequest(null);
-      setCheckAlertOpen({ target: null, isOpen: false, type: "" });
-    } else setIsAlert("오류가 발생했습니다.");
-    fetchRequests();
-  };
-
-  const handleRejectRequest = async (requestId: number) => {
-    const data = await rejectFriendRequest(requestId);
-    if (data) {
-      setIsAlert("친구 요청을 거절하였습니다.");
-      setSelectedRequest(null);
-      setCheckAlertOpen({ target: null, isOpen: false, type: "" });
-    } else setIsAlert("오류가 발생했습니다.");
-    fetchRequests();
+    setFriendRequests(data);
   };
 
   useEffect(() => {
@@ -102,10 +70,10 @@ export default function () {
       </ul>
       <section className="w-full my-1 px-screen-x">
         <div className="flex items-end justify-between text-sm text-gray-500">
-          <p>대기중인 친구 요청 {requests.length}</p>
+          <p>대기중인 친구 요청 {friendRequests.length}</p>
         </div>
-        {!!requests &&
-          requests.map((request) => (
+        {!!friendRequests &&
+          friendRequests.map((request) => (
             <div
               className="flex items-center justify-between my-3"
               key={request.requestId}
@@ -131,11 +99,7 @@ export default function () {
                 <button
                   className="px-4 py-2 bg-white border border-gray-200 border-solid rounded-md"
                   onClick={() => {
-                    setCheckAlertOpen({
-                      target: request,
-                      isOpen: true,
-                      type: REJECT,
-                    });
+                    handleReject(request.sender);
                   }}
                 >
                   거절
@@ -143,11 +107,7 @@ export default function () {
                 <button
                   className="px-4 py-2 rounded-md bg-customYellow"
                   onClick={() => {
-                    setCheckAlertOpen({
-                      target: request,
-                      isOpen: true,
-                      type: ACCEPT,
-                    });
+                    handleAccept(request.sender);
                   }}
                 >
                   수락
@@ -264,9 +224,9 @@ export default function () {
           </div>
         </ModalWrapper>
       )} */}
-      {isAlert && (
+      {/* {isAlert && (
         <AlertMessage message={isAlert} setClose={() => setIsAlert(null)} />
-      )}
+      )} */}
     </>
   );
 }
