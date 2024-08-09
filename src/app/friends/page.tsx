@@ -10,15 +10,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useState } from "react";
 import FriendList from "@/components/list/friendsList";
-import ProfileDetailModal from "@/components/modal/friend/ProfileDetailModal";
-import ConfirmationModal from "@/components/modal/ConfirmationModal";
 import useFriends from "@/hooks/useFriends";
 import useFriendRequests from "@/hooks/useFriendRequest";
-import { useAlert } from "@/context/AlertProvider";
 import SearchInput from "@/components/input/SearchInput";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { ModalState, openProfileDetail } from "@/store/modalSlice";
+import { useDispatch } from "react-redux";
+import { openProfileDetail } from "@/store/modalSlice";
 interface FriendType {
   memberId: number;
   name: string;
