@@ -16,7 +16,11 @@ function useFriendRequests() {
     fetchData();
   }, []);
 
-  return { friendRequests, requestCount, isLoading };
+  return {
+    friendRequests,
+    requestCount,
+    isLoading,
+  };
 }
 
 export default useFriendRequests;

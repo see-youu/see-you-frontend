@@ -5,7 +5,7 @@ export interface ModalState {
   profileDetailOpen: boolean;
   confirmationModalOpen: boolean;
   friendRequestModalOpen: boolean;
-  selectedProfile: FriendType | null;
+  selectedProfile: FriendType;
   confirmMessage: string;
 }
 
@@ -21,6 +21,9 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
+    setSelectedProfile: (state, action) => {
+      state.selectedProfile = action.payload;
+    },
     openProfileDetail: (state, action) => {
       state.profileDetailOpen = true;
       state.selectedProfile = action.payload;
@@ -32,10 +35,12 @@ export const modalSlice = createSlice({
     openConfirmationModal: (state, action) => {
       state.confirmationModalOpen = true;
       state.profileDetailOpen = false;
+      state.friendRequestModalOpen = false;
       state.confirmMessage = action.payload;
     },
     closeConfirmationModal: (state) => {
       state.confirmationModalOpen = false;
+      state.friendRequestModalOpen = false;
       state.confirmMessage = "";
     },
     openFriendRequestModal: (state, action) => {
@@ -55,6 +60,7 @@ export const modalSlice = createSlice({
 });
 
 export const {
+  setSelectedProfile,
   openProfileDetail,
   closeProfileDetail,
   openConfirmationModal,

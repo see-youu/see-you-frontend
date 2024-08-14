@@ -6,16 +6,41 @@ import Image from "next/image";
 import emptyImg from "@/../public/emptyImg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { closeFriendRequestModal, ModalState } from "@/store/modalSlice";
+import {
+  closeAllModal,
+  closeFriendRequestModal,
+  ModalState,
+  openConfirmationModal,
+  openFriendRequestModal,
+} from "@/store/modalSlice";
+import { useAlert } from "@/context/AlertProvider";
+import {
+  acceptFriendRequest,
+  fetchFriendsRequestList,
+  rejectFriendRequest,
+} from "@/api/friends";
+import { useConfirm } from "@/context/ConfirmationProvider";
+import { useFriendRequest } from "@/context/friend/RequestProvider";
+import useFriendRequests from "@/hooks/useFriendRequest";
+import useHandleRequests from "@/hooks/useHandleRequests";
 
 const FriendRequestModal = () => {
   const dispatch = useDispatch();
   const { selectedProfile } = useSelector(
     (state: RootState) => state.modal as ModalState
   );
+  const { setConfirmCancelFunction, setConfirmFunction } = useConfirm();
+  const { setAlert } = useAlert();
+  const { setFriendRequests } = useFriendRequest();
+  const { handleAccept, handleReject } = useHandleRequests();
 
   const handleCloseModal = () => {
     dispatch(closeFriendRequestModal());
+  };
+
+  const fetchRequests = async () => {
+    const data = await fetchFriendsRequestList();
+    setFriendRequests(data);
   };
 
   return (
@@ -46,27 +71,13 @@ const FriendRequestModal = () => {
               <div className="flex justify-center w-full gap-4 text-sm">
                 <button
                   className="px-4 py-2 bg-white border border-gray-200 border-solid rounded-md"
-                  onClick={
-                    () => {}
-                    //   setCheckAlertOpen({
-                    //     target: selectedRequest,
-                    //     isOpen: true,
-                    //     type: REJECT,
-                    //   })
-                  }
+                  onClick={handleReject}
                 >
                   거절
                 </button>
                 <button
                   className="px-4 py-2 rounded-md bg-customYellow"
-                  onClick={
-                    () => {}
-                    //   setCheckAlertOpen({
-                    //     target: selectedRequest,
-                    //     isOpen: true,
-                    //     type: ACCEPT,
-                    //   })
-                  }
+                  onClick={handleAccept}
                 >
                   수락
                 </button>
